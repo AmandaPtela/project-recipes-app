@@ -8,10 +8,8 @@ function Login() {
   function check() {
     const minPass = 6;
     const regexEmail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    if (regexEmail.test(email) && password.length > minPass) {
-      return false;
-    }
-    return true;
+    const ok = regexEmail.test(email) && password.length > minPass;
+    return !ok;
   }
 
   function handleClick() {
@@ -45,14 +43,14 @@ function Login() {
           required
         />
       </label>
-      <Link to='/foods'>
+      <Link to="/foods">
         <button
           type="button"
           disabled={ check() }
           data-testid="login-submit-btn"
           onClick={ handleClick }
-          >
-            Entrar
+        >
+          Entrar
         </button>
       </Link>
     </form>
