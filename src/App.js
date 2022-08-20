@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
@@ -9,8 +9,13 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoritesRecipes';
 import DrinksDetails from './pages/DrinksDetails';
 import FoodsDetails from './pages/FoodsDetails';
+import { Context } from './context/Provider';
 
 function App() {
+  const AllContext = useContext(Context);
+
+  console.log('TEM DENTRO DO CONTEXT................................', AllContext);
+
   return (
     <BrowserRouter>
       <Switch>
