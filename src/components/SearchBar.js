@@ -1,11 +1,38 @@
-import React, { useContext, useState } from 'react';
-import fetchFood from '../API/fetchFood';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import fetchContent from '../API/recipesAPI';
 import { Context } from '../context/Provider';
 
-function SearchBar() {
+function SearchBar({ type }) {
   const [searchValue, setSearchValue] = useState('');
-  const [radioValue, setRadioValue] = useState('');
-  const { setFoods } = useContext(Context);
+  const [radioValue, setRadioValue] = useState('search-ingredient');
+  const { setContent, content } = useContext(Context);
+  const history = useHistory();
+
+  useEffect(() => {
+    const handleOneContent = () => {
+      if (type === 'Foods' && content.meals
+          && content.meals !== null && content.meals.length === 1) {
+        history.push(`/foods/${content.meals[0].idMeal}`);
+        setContent({});
+      }
+
+      if (type === 'Drinks' && content.drinks
+          && content.drinks !== null && content.drinks.length === 1) {
+        history.push(`/drinks/${content.drinks[0].idDrink}`);
+        setContent({});
+      }
+
+      console.log(content);
+      console.log(content[Object.keys(content)]);
+
+      if (content[Object.keys(content)[0]] === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+    };
+
+    handleOneContent();
+  }, [content, type]);
 
   const handleSearch = ({ target }) => {
     setSearchValue(target.value);
@@ -16,19 +43,44 @@ function SearchBar() {
   };
 
   const handleSubmit = async () => {
-    if (radioValue === 'search-ingredient') {
-      const API = await fetchFood(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchValue}`);
-      setFoods(API);
+    if (type === 'Foods') {
+      if (radioValue === 'search-ingredient') {
+        const API = await fetchContent(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchValue}`);
+        setContent(API);
+      }
+
+      if (radioValue === 'search-name') {
+        const API = await fetchContent(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`);
+        setContent(API);
+      }
+
+      if (radioValue === 'search-first-letter') {
+        if (searchValue.length > 1) {
+          return global.alert('Your search must have only 1 (one) character');
+        }
+        const API = await fetchContent(`https://www.themealdb.com/api/json/v1/1/search.php?f=${searchValue}`);
+        setContent(API);
+      }
     }
 
-    if (radioValue === 'search-name') {
-      const API = await fetchFood(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`);
-      setFoods(API);
-    }
+    if (type === 'Drinks') {
+      if (radioValue === 'search-ingredient') {
+        const API = await fetchContent(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchValue}`);
+        setContent(API);
+      }
 
-    if (radioValue === 'search-first-letter') {
-      const API = await fetchFood(`https://www.themealdb.com/api/json/v1/1/search.php?f=${searchValue}`);
-      setFoods(API);
+      if (radioValue === 'search-name') {
+        const API = await fetchContent(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchValue}`);
+        setContent(API);
+      }
+
+      if (radioValue === 'search-first-letter') {
+        if (searchValue.length > 1) {
+          return global.alert('Your search must have only 1 (one) character');
+        }
+        const API = await fetchContent(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchValue}`);
+        setContent(API);
+      }
     }
   };
 

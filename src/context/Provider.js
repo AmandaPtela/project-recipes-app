@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 export const Context = createContext();
 
 export function Provider({ children }) {
-  const [foods, setFoods] = useState({});
+  const [content, setContent] = useState({});
 
   return (
     <Context.Provider
       value={ {
-        foods,
-        setFoods,
+        content,
+        setContent,
       } }
     >
       { children }

@@ -34,7 +34,7 @@ function Header({ title }) {
         <img src={ profileIcon } alt="profileIcon" data-testid="profile-top-btn" />
       </Link>
       {(title === 'Foods' || title === 'Drinks') && search}
-      {showSearch && <SearchBar />}
+      {showSearch && <SearchBar type={ title } />}
     </header>
   );
 }
