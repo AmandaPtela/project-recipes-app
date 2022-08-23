@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import fetchContent from '../API/recipesAPI';
+import { fetchContent } from '../API/recipesAPI';
 import { Context } from '../context/Provider';
 
 function SearchBar({ type }) {

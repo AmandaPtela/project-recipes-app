@@ -1,11 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
+import { fetchRecipes } from '../API/recipesAPI';
 
 function Drinks() {
-  const { content } = useContext(Context);
+  const { content, setContent } = useContext(Context);
   const maxItens = 12;
+
+  useEffect(() => {
+    const renderRecipes = async () => {
+      const recipes = await fetchRecipes('Drink');
+      setContent(recipes);
+    };
+    renderRecipes();
+  }, []);
 
   const drinkRender = () => content.drinks.map((food, index) => {
     if (index < maxItens) {
