@@ -2,27 +2,43 @@ import React, { useContext, useEffect } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
-import { fetchRecipes, fetchCategory } from '../API/recipesAPI';
+import { fetchRecipes, fetchCategory, fetchContentWithCategory } from '../API/recipesAPI';
 
 function Drinks() {
   const { content, setContent, categories, setCategories } = useContext(Context);
   const maxItens = 12;
   const maxCategories = 5;
 
+  const recipesFetch = async () => {
+    const recipes = await fetchRecipes('Drink');
+    setContent(recipes);
+  };
+
+  const categoryFetch = async () => {
+    const category = await fetchCategory('Drink');
+    setCategories(category);
+  };
+
+  const clearButton = (
+    <button
+      type="button"
+      onClick={ recipesFetch }
+      data-testid="All-category-filter"
+    >
+      All
+
+    </button>
+  );
+
   useEffect(() => {
-    const recipesFetch = async () => {
-      const recipes = await fetchRecipes('Drink');
-      setContent(recipes);
-    };
-
-    const categoryFetch = async () => {
-      const category = await fetchCategory('Drink');
-      setCategories(category);
-    };
-
     recipesFetch();
     categoryFetch();
   }, []);
+
+  const handleCategoryClick = async (drink) => {
+    const data = await fetchContentWithCategory('Drink', drink);
+    setContent(data);
+  };
 
   const categoryRender = () => categories.drinks.map((drink, index) => {
     if (index < maxCategories) {
@@ -31,6 +47,7 @@ function Drinks() {
           key={ index + drink.strCategory }
           type="button"
           data-testid={ `${drink.strCategory}-category-filter` }
+          onClick={ () => handleCategoryClick(drink.strCategory) }
         >
           {drink.strCategory}
 
@@ -64,6 +81,7 @@ function Drinks() {
       <Header title="Drinks" />
       { (categories.drinks !== null
         && Object.values(categories).length >= 1) && categoryRender() }
+      {clearButton}
       { (content.drinks !== null && Object.values(content).length >= 1) && drinkRender() }
       <Footer />
     </div>
