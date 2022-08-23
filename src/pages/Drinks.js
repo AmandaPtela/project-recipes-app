@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
 
@@ -29,6 +30,7 @@ function Drinks() {
     <div>
       <Header title="Drinks" />
       { (content.drinks !== null && Object.values(content).length >= 1) && drinkRender() }
+      <Footer />
     </div>
   );
 }

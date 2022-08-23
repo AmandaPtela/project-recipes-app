@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
 
@@ -29,7 +30,7 @@ function Foods() {
     <div>
       <Header title="Foods" />
       { (content.meals !== null && Object.values(content).length >= 1) && foodRender() }
-
+      <Footer />
     </div>
   );
 }
