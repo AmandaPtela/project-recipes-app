@@ -1,16 +1,23 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export const context = createContext();
+export const Context = createContext();
 
 export function Provider({ children }) {
+  const [content, setContent] = useState({});
+
   return (
-    <context.Provider value={ {} }>
+    <Context.Provider
+      value={ {
+        content,
+        setContent,
+      } }
+    >
       { children }
-    </context.Provider>
+    </Context.Provider>
   );
 }
 
 Provider.propTypes = {
-  children: PropTypes.objectOf(PropTypes.object).isRequired,
+  children: PropTypes.node.isRequired,
 };
