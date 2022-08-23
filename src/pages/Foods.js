@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
@@ -6,11 +7,19 @@ import { Context } from '../context/Provider';
 function Foods() {
   const { content } = useContext(Context);
   const maxItens = 12;
+  const history = useHistory();
 
   const foodRender = () => content.meals.map((food, index) => {
     if (index < maxItens) {
       return (
-        <div key={ food.idMeal } data-testid={ `${index}-recipe-card` }>
+        <div
+          key={ food.idMeal }
+          data-testid={ `${index}-recipe-card` }
+          onClick={ () => history.push('/foods/52940') }
+          onKeyDown={ () => history.push('/foods/52940') }
+          role="button"
+          tabIndex={ 0 }
+        >
           <h1 data-testid={ `${index}-card-name` }>
             {' '}
             { food.strMeal }
