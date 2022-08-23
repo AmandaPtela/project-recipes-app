@@ -84,8 +84,6 @@ function SearchBar({ type }) {
     }
   };
 
-  console.log(radioValue, searchValue);
-
   return (
     <div>
       <form>
