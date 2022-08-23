@@ -35,23 +35,31 @@ function Foods() {
     </button>
   );
 
-  const handleCategoryClick = async (food) => {
-    const data = await fetchContentWithCategory('Food', food);
-    setContent(data);
+  const handleCategoryClick = async (food, button) => {
+    if (!button.target.checked) {
+      recipesFetch();
+    }
+    if (button.target.checked) {
+      const data = await fetchContentWithCategory('Food', food);
+      setContent(data);
+    }
   };
 
   const categoryRender = () => categories.meals.map((food, index) => {
     if (index < maxCategories) {
       return (
-        <button
-          onClick={ () => handleCategoryClick(food.strCategory) }
-          key={ index + food.strCategory }
-          type="button"
-          data-testid={ `${food.strCategory}-category-filter` }
-        >
-          {food.strCategory}
+        <div key={ index + food.strCategory }>
+          <label htmlFor={ food.strCategory }>
+            <input
+              id={ food.strCategory }
+              onClick={ (button) => handleCategoryClick(food.strCategory, button) }
+              type="checkbox"
+              data-testid={ `${food.strCategory}-category-filter` }
+            />
+            {food.strCategory}
+          </label>
 
-        </button>
+        </div>
       );
     }
   });

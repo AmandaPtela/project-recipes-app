@@ -19,6 +19,11 @@ function Drinks() {
     setCategories(category);
   };
 
+  useEffect(() => {
+    recipesFetch();
+    categoryFetch();
+  }, []);
+
   const clearButton = (
     <button
       type="button"
@@ -30,28 +35,30 @@ function Drinks() {
     </button>
   );
 
-  useEffect(() => {
-    recipesFetch();
-    categoryFetch();
-  }, []);
-
-  const handleCategoryClick = async (drink) => {
-    const data = await fetchContentWithCategory('Drink', drink);
-    setContent(data);
+  const handleCategoryClick = async (drink, button) => {
+    if (!button.target.checked) {
+      recipesFetch();
+    }
+    if (button.target.checked) {
+      const data = await fetchContentWithCategory('Drink', drink);
+      setContent(data);
+    }
   };
 
   const categoryRender = () => categories.drinks.map((drink, index) => {
     if (index < maxCategories) {
       return (
-        <button
-          key={ index + drink.strCategory }
-          type="button"
-          data-testid={ `${drink.strCategory}-category-filter` }
-          onClick={ () => handleCategoryClick(drink.strCategory) }
-        >
-          {drink.strCategory}
-
-        </button>
+        <div key={ index + drink.strCategory }>
+          <label htmlFor={ drink.strCategory }>
+            <input
+              id={ drink.strCategory }
+              onClick={ (button) => handleCategoryClick(drink.strCategory, button) }
+              type="checkbox"
+              data-testid={ `${drink.strCategory}-category-filter` }
+            />
+            {drink.strCategory}
+          </label>
+        </div>
       );
     }
   });
