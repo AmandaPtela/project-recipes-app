@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
@@ -6,6 +7,7 @@ import { fetchRecipes, fetchCategory, fetchContentWithCategory } from '../API/re
 
 function Drinks() {
   const { content, setContent, categories, setCategories } = useContext(Context);
+  const history = useHistory();
   const maxItens = 12;
   const maxCategories = 5;
 
@@ -66,7 +68,14 @@ function Drinks() {
   const drinkRender = () => content.drinks.map((drink, index) => {
     if (index < maxItens) {
       return (
-        <div key={ drink.idDrink } data-testid={ `${index}-recipe-card` }>
+        <div
+          key={ drink.idDrink }
+          data-testid={ `${index}-recipe-card` }
+          onClick={ () => history.push(`/drinks/${drink.idDrink}`) }
+          role="button"
+          tabIndex={ 0 }
+          onKeyDown={ () => history.push(`/drinks/${drink.idDrink}`) }
+        >
           <h1 data-testid={ `${index}-card-name` }>
             {' '}
             { drink.strDrink }
