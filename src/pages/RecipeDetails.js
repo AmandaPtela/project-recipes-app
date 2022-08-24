@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import fetchContent from '../API/recipesAPI';
+import BtnRecipe from '../components/BtnRecipe';
 import Carousel from '../components/Carousel';
 
 function RecipeDetails() {
   const { id } = useParams();
   const location = useLocation();
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (doneRecipes === null) {
     const obj = [{}];
+    const objProgress = {
+      cocktails: {
+        178319: [],
+      },
+      meals: {
+        52771: [],
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(objProgress));
     localStorage.setItem('doneRecipes', JSON.stringify(obj));
   }
   console.log(doneRecipes);
@@ -17,6 +28,7 @@ function RecipeDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsQntd, setIngredientsQntd] = useState([]);
   const [recomendations, setRecomendations] = useState();
+  const [isInProgress, setIsInProgress] = useState(false);
   const type = location.pathname.split('/')[1];
 
   const fetchingData = async () => {
@@ -35,8 +47,14 @@ function RecipeDetails() {
 
   useEffect(() => {
     if (recipe === undefined || recomendations === undefined) return;
-    console.log(recipe);
-    console.log(recomendations);
+
+    console.log(inProgressRecipes);
+    const i = type === 'drinks' ? 'cocktails' : 'meals';
+    if (inProgressRecipes !== null) {
+      const allInProgress = Object.keys(inProgressRecipes[i]);
+      console.log(allInProgress.some((e) => Number(e) === id));
+      setIsInProgress(allInProgress.some((e) => e === id));
+    }
     const maxIngredient = 20;
     const newArrI = [];
     const newArrQ = [];
@@ -119,16 +137,7 @@ function RecipeDetails() {
           />
         </div>
       )}
-      {doneRecipes !== null && !doneRecipes.some((e) => e.id === id)
-      && (
-        <button
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: 0 } }
-          type="button"
-        >
-          Start Recipe
-        </button>)}
-
+      <BtnRecipe doneRecipes={ doneRecipes } id={ id } isInProgress={ isInProgress } />
     </div>
   );
 }
