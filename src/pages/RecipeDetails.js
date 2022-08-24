@@ -3,10 +3,14 @@ import { useParams, useLocation } from 'react-router-dom';
 import fetchContent from '../API/recipesAPI';
 import BtnRecipe from '../components/BtnRecipe';
 import Carousel from '../components/Carousel';
+import ShareIcon from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function RecipeDetails() {
   const { id } = useParams();
   const location = useLocation();
+  console.log(location);
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (doneRecipes === null) {
@@ -29,6 +33,7 @@ function RecipeDetails() {
   const [ingredientsQntd, setIngredientsQntd] = useState([]);
   const [recomendations, setRecomendations] = useState();
   const [isInProgress, setIsInProgress] = useState(false);
+  const [copyLink, setCopyLink] = useState(false);
   const type = location.pathname.split('/')[1];
 
   const fetchingData = async () => {
@@ -143,6 +148,17 @@ function RecipeDetails() {
         id={ id }
         isInProgress={ isInProgress }
       />
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ () => { setCopyLink(true); copy(`http://localhost:3000${location.pathname}`); } }
+      >
+        <img src={ ShareIcon } alt="" srcSet="" />
+      </button>
+      <button data-testid="favorite-btn" type="button">
+        Favoritar
+      </button>
+      {copyLink && <p>Link copied!</p>}
     </div>
   );
 }

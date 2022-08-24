@@ -10,7 +10,7 @@ export default function BtnRecipe({ doneRecipes, id, isInProgress }) {
       && (
         <button
           data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: 0 } }
+          style={ { position: 'fixed', bottom: 0, right: 0 } }
           type="button"
           onClick={ () => history.push(`${id}/in-progress`) }
         >
