@@ -6,7 +6,8 @@ import { Context } from '../context/Provider';
 import { fetchRecipes, fetchCategory, fetchContentWithCategory } from '../API/recipesAPI';
 
 function Foods() {
-  const { content, setContent, categories, setCategories } = useContext(Context);
+  const { content, setContent, categories,
+    setCategories } = useContext(Context);
   const history = useHistory();
   const maxItens = 12;
   const maxCategories = 5;
@@ -72,10 +73,11 @@ function Foods() {
         <div
           key={ food.idMeal }
           data-testid={ `${index}-recipe-card` }
-          onClick={ () => history.push(`/foods/${food.idMeal}`) }
+          // TROCAR URL!!!!!!!!!!!!!!!
+          onClick={ () => history.push(`/foods/${food.idMeal}/in-progress`) }
           role="button"
           tabIndex={ 0 }
-          onKeyDown={ () => history.push(`/foods/${food.idMeal}`) }
+          onKeyDown={ () => history.push(`/foods/${food.idMeal}/in-progress`) }
         >
           <h1 data-testid={ `${index}-card-name` }>
             {' '}

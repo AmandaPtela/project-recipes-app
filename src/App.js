@@ -10,6 +10,7 @@ import FavoriteRecipes from './pages/FavoritesRecipes';
 import DrinksDetails from './pages/DrinksDetails';
 import FoodsDetails from './pages/FoodsDetails';
 import { Context } from './context/Provider';
+import RecipeInProgress from './pages/RecipeInProgress';
 
 function App() {
   const AllContext = useContext(Context);
@@ -20,8 +21,10 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={ Login } />
+        <Route path="/foods/:id/in-progress" component={ RecipeInProgress } />
         <Route path="/foods/:id" component={ FoodsDetails } />
         <Route path="/foods" component={ Foods } />
+        <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
         <Route path="/drinks/:id" component={ DrinksDetails } />
         <Route path="/drinks" component={ Drinks } />
         <Route path="/profile" component={ Profile } />

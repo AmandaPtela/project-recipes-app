@@ -42,3 +42,16 @@ export const fetchContentWithCategory = async (type, item) => {
     return data;
   }
 };
+
+export const fetchRecipeInProgress = async (type, item) => {
+  if (type === 'Food') {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${item}`);
+    const data = await response.json();
+    return data;
+  }
+  if (type === 'Drink') {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item}`);
+    const data = await response.json();
+    return data;
+  }
+};

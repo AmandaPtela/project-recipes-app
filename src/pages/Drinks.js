@@ -71,10 +71,11 @@ function Drinks() {
         <div
           key={ drink.idDrink }
           data-testid={ `${index}-recipe-card` }
-          onClick={ () => history.push(`/drinks/${drink.idDrink}`) }
+          // TROCAR URL!!!!!!!!!!!!!!!
+          onClick={ () => history.push(`/drinks/${drink.idDrink}/in-progress`) }
           role="button"
           tabIndex={ 0 }
-          onKeyDown={ () => history.push(`/drinks/${drink.idDrink}`) }
+          onKeyDown={ () => history.push(`/drinks/${drink.idDrink}/in-progress`) }
         >
           <h1 data-testid={ `${index}-card-name` }>
             {' '}
