@@ -88,21 +88,37 @@ function RecipeDetails() {
     setLoading(false);
   }, [recipe, recomendations]);
 
-  const handleFav = () => {
-    const obj = {
-      id,
-      type: type === 'foods' ? 'food' : 'drink',
-      nationality: type === 'foods' ? recipe.meals[0].strArea : '',
-      category: type === 'foods'
-        ? recipe.meals[0].strCategory : recipe.drinks[0].strCategory,
-      alcoholicOrNot: type === 'foods' ? '' : 'Alcoholic',
-      name: type === 'foods' ? recipe.meals[0].strMeal : recipe.drinks[0].strDrink,
-      image: type === 'foods'
-        ? recipe.meals[0].strMealThumb : recipe.drinks[0].strDrinkThumb,
-    };
-    const newArr = Object.keys(favoriteRecipes[0]).length === 0
-      ? [obj] : [...favoriteRecipes, obj];
+  const notFav = () => {
+    const newArr = favoriteRecipes.filter((e) => e.id !== id);
+    if (newArr.length === 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([{}]));
+      setIsFavorite(false);
+      return;
+    }
     localStorage.setItem('favoriteRecipes', JSON.stringify(newArr));
+    setIsFavorite(false);
+  };
+
+  const handleFav = () => {
+    if (!isFavorite) {
+      const obj = {
+        id,
+        type: type === 'foods' ? 'food' : 'drink',
+        nationality: type === 'foods' ? recipe.meals[0].strArea : '',
+        category: type === 'foods'
+          ? recipe.meals[0].strCategory : recipe.drinks[0].strCategory,
+        alcoholicOrNot: type === 'foods' ? '' : 'Alcoholic',
+        name: type === 'foods' ? recipe.meals[0].strMeal : recipe.drinks[0].strDrink,
+        image: type === 'foods'
+          ? recipe.meals[0].strMealThumb : recipe.drinks[0].strDrinkThumb,
+      };
+      const newArr = Object.keys(favoriteRecipes[0]).length === 0
+        ? [obj] : [...favoriteRecipes, obj];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newArr));
+      setIsFavorite(true);
+      return;
+    }
+    notFav();
   };
   return (
     <div>
