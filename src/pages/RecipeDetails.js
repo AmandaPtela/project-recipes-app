@@ -137,7 +137,12 @@ function RecipeDetails() {
           />
         </div>
       )}
-      <BtnRecipe doneRecipes={ doneRecipes } id={ id } isInProgress={ isInProgress } />
+      <BtnRecipe
+        type={ type }
+        doneRecipes={ doneRecipes }
+        id={ id }
+        isInProgress={ isInProgress }
+      />
     </div>
   );
 }
