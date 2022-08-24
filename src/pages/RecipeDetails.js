@@ -6,6 +6,12 @@ import Carousel from '../components/Carousel';
 function RecipeDetails() {
   const { id } = useParams();
   const location = useLocation();
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  if (doneRecipes === null) {
+    const obj = [{}];
+    localStorage.setItem('doneRecipes', JSON.stringify(obj));
+  }
+  console.log(doneRecipes);
   const [recipe, setRecipe] = useState();
   const [loading, setLoading] = useState(true);
   const [ingredients, setIngredients] = useState([]);
@@ -113,6 +119,16 @@ function RecipeDetails() {
           />
         </div>
       )}
+      {doneRecipes !== null && !doneRecipes.some((e) => e.id === id)
+      && (
+        <button
+          data-testid="start-recipe-btn"
+          style={ { position: 'fixed', bottom: 0 } }
+          type="button"
+        >
+          Start Recipe
+        </button>)}
+
     </div>
   );
 }

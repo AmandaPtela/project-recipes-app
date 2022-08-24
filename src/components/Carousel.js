@@ -14,7 +14,7 @@ export default function Carousel({ data, type }) {
     slidesToShow: 2,
     slidesToScroll: 1,
   };
-  console.log(data);
+
   return (
     <Slider { ...settings }>
       {type === 'foods' ? data.slice(0, maxCards).map((reco, i) => (
