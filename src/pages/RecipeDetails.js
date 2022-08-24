@@ -4,6 +4,8 @@ import fetchContent from '../API/recipesAPI';
 import BtnRecipe from '../components/BtnRecipe';
 import Carousel from '../components/Carousel';
 import ShareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -26,6 +28,9 @@ function RecipeDetails() {
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(objProgress));
     localStorage.setItem('doneRecipes', JSON.stringify(obj));
+  }
+  if (favoriteRecipes === null) {
+    const obj = [{}];
     localStorage.setItem('favoriteRecipes', JSON.stringify(obj));
   }
   const [recipe, setRecipe] = useState();
@@ -61,6 +66,9 @@ function RecipeDetails() {
       setIsInProgress(allInProgress.some((e) => e === id));
       setIsFavorite(favoriteRecipes.some((e) => e.id === id));
     }
+    if (favoriteRecipes !== null && Object.keys(favoriteRecipes[0]).length !== 0) {
+      setIsFavorite(favoriteRecipes.some((e) => e.id === id));
+    }
     const maxIngredient = 20;
     const newArrI = [];
     const newArrQ = [];
@@ -92,7 +100,6 @@ function RecipeDetails() {
       image: type === 'foods'
         ? recipe.meals[0].strMealThumb : recipe.drinks[0].strDrinkThumb,
     };
-    console.log(Object.keys(favoriteRecipes[0]).length === 0);
     const newArr = Object.keys(favoriteRecipes[0]).length === 0
       ? [obj] : [...favoriteRecipes, obj];
     localStorage.setItem('favoriteRecipes', JSON.stringify(newArr));
@@ -173,8 +180,12 @@ function RecipeDetails() {
       >
         <img src={ ShareIcon } alt="" srcSet="" />
       </button>
-      <button data-testid="favorite-btn" type="button" onClick={ handleFav }>
-        Favoritar
+      <button type="button" onClick={ handleFav }>
+        <img
+          data-testid="favorite-btn"
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+          alt=""
+        />
       </button>
       {copyLink && <p>Link copied!</p>}
     </div>
