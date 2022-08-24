@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 export default function BtnRecipe({ doneRecipes, id, isInProgress }) {
   const history = useHistory();
+  console.log(doneRecipes);
   return (
     <div>
       {doneRecipes !== null && !doneRecipes.some((e) => e.id === id)
@@ -15,7 +16,8 @@ export default function BtnRecipe({ doneRecipes, id, isInProgress }) {
           onClick={ () => history.push(`${id}/in-progress`) }
         >
           {isInProgress === true ? 'Continue Recipe' : 'Start Recipe'}
-        </button>)}
+        </button>
+      )}
     </div>
   );
 }

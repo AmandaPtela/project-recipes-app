@@ -10,9 +10,10 @@ const copy = require('clipboard-copy');
 function RecipeDetails() {
   const { id } = useParams();
   const location = useLocation();
-  console.log(location);
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  console.log(favoriteRecipes);
   if (doneRecipes === null) {
     const obj = [{}];
     const objProgress = {
@@ -25,14 +26,15 @@ function RecipeDetails() {
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(objProgress));
     localStorage.setItem('doneRecipes', JSON.stringify(obj));
+    localStorage.setItem('favoriteRecipes', JSON.stringify(obj));
   }
-  console.log(doneRecipes);
   const [recipe, setRecipe] = useState();
   const [loading, setLoading] = useState(true);
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsQntd, setIngredientsQntd] = useState([]);
   const [recomendations, setRecomendations] = useState();
   const [isInProgress, setIsInProgress] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [copyLink, setCopyLink] = useState(false);
   const type = location.pathname.split('/')[1];
 
@@ -52,13 +54,12 @@ function RecipeDetails() {
 
   useEffect(() => {
     if (recipe === undefined || recomendations === undefined) return;
-
-    console.log(inProgressRecipes);
+    console.log(recipe);
     const i = type === 'drinks' ? 'cocktails' : 'meals';
     if (inProgressRecipes !== null) {
       const allInProgress = Object.keys(inProgressRecipes[i]);
-      console.log(allInProgress.some((e) => Number(e) === id));
       setIsInProgress(allInProgress.some((e) => e === id));
+      setIsFavorite(favoriteRecipes.some((e) => e.id === id));
     }
     const maxIngredient = 20;
     const newArrI = [];
@@ -79,6 +80,23 @@ function RecipeDetails() {
     setLoading(false);
   }, [recipe, recomendations]);
 
+  const handleFav = () => {
+    const obj = {
+      id,
+      type: type === 'foods' ? 'food' : 'drink',
+      nationality: type === 'foods' ? recipe.meals[0].strArea : '',
+      category: type === 'foods'
+        ? recipe.meals[0].strCategory : recipe.drinks[0].strCategory,
+      alcoholicOrNot: type === 'foods' ? '' : 'Alcoholic',
+      name: type === 'foods' ? recipe.meals[0].strMeal : recipe.drinks[0].strDrink,
+      image: type === 'foods'
+        ? recipe.meals[0].strMealThumb : recipe.drinks[0].strDrinkThumb,
+    };
+    console.log(Object.keys(favoriteRecipes[0]).length === 0);
+    const newArr = Object.keys(favoriteRecipes[0]).length === 0
+      ? [obj] : [...favoriteRecipes, obj];
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newArr));
+  };
   return (
     <div>
       Foods
@@ -155,7 +173,7 @@ function RecipeDetails() {
       >
         <img src={ ShareIcon } alt="" srcSet="" />
       </button>
-      <button data-testid="favorite-btn" type="button">
+      <button data-testid="favorite-btn" type="button" onClick={ handleFav }>
         Favoritar
       </button>
       {copyLink && <p>Link copied!</p>}
