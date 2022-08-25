@@ -9,19 +9,145 @@ function RecipeInProgress() {
   const getRecipe = async () => {
     if (id[0] === '5') {
       const data = await fetchRecipeInProgress('Food', id);
-      console.log(data);
       setFetchedRecipe(data);
     }
     if (id[0] === '1') {
       const data = await fetchRecipeInProgress('Drink', id);
-      console.log(data);
       setFetchedRecipe(data);
     }
   };
 
+  const retrieveLocalStorage = () => {
+    if (!window.localStorage.getItem('inProgressRecipes')) {
+      if (id[0] === '5') {
+        const createLocalStorage = {
+          cocktails: {
+          },
+          meals: {
+            [id]: null,
+          },
+        };
+
+        window.localStorage.setItem('inProgressRecipes',
+          JSON.stringify(createLocalStorage));
+      }
+
+      if (id[0] === '1') {
+        const createLocalStorage = {
+          cocktails: {
+            [id]: null,
+          },
+          meals: {
+          },
+        };
+
+        window.localStorage.setItem('inProgressRecipes',
+          JSON.stringify(createLocalStorage));
+      }
+    }
+
+    console.log('LOCAL STORAGE AO CARREGAR:',
+      JSON.parse(window.localStorage.getItem('inProgressRecipes')));
+  };
+
   useEffect(() => {
     getRecipe();
+    retrieveLocalStorage();
   }, []);
+
+  const teste = JSON.parse(window.localStorage.getItem('inProgressRecipes'));
+  console.log(teste.meals);
+
+  // eslint-disable-next-line react-func/max-lines-per-function
+  const saveSteps = (ingredientID, { target }) => {
+    const storage = JSON.parse(window.localStorage.getItem('inProgressRecipes'));
+
+    if (target.checked && id[0] === '5') {
+      if (storage.meals[id] === null) {
+        const newStorage = {
+          cocktails: {
+            ...storage.cocktails,
+          },
+          meals: {
+            [id]: [ingredientID],
+          },
+        };
+
+        window.localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+      }
+
+      if (storage.meals[id] !== null && !storage.meals[id]) {
+        const newStorage = {
+          cocktails: {
+            ...storage.cocktails,
+          },
+          meals: {
+            ...storage.meals,
+            [id]: [ingredientID],
+          },
+        };
+
+        window.localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+      }
+
+      if (storage.meals[id] !== null && storage.meals[id]
+        && !storage.meals[id].includes(ingredientID)) {
+        const newStorage = {
+          cocktails: {
+            ...storage.cocktails,
+          },
+          meals: {
+            ...storage.meals,
+            [id]: [...storage.meals[id], ingredientID],
+          },
+        };
+
+        window.localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+      }
+    }
+
+    if (!target.checked && id[0] === '5' && storage) {
+      const actualItemStorage = storage.meals[id];
+      const removedItem = actualItemStorage.filter((item) => item !== ingredientID);
+
+      const newStorage = {
+        cocktails: {
+          ...storage.cocktails,
+        },
+        meals: {
+          ...storage.meals,
+          [id]: [removedItem],
+        },
+      };
+
+      window.localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+    }
+  };
+
+  // console.log(storage);
+
+  // console.log('É pra adicionar a PRIMEIRA vez');
+  // const newStorage = {
+  //   cocktails: {
+  //   },
+  //   meals: {
+  //     [id]: [...storage.meals[id], ingredientID],
+  //   },
+  // };
+
+  // window.localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+
+  // if (Object.entries(storage.meals)[0].includes(id)
+  //     && !storage.meals[id].includes(ingredientID)) {
+  //   console.log('É pra adicionar mais de um');
+  //   const newStorage = {
+  //     meals: {
+  //       [id]: [...storage.meals[id], ingredientID],
+  //     },
+  //   };
+
+  //   window.localStorage.setItem('inProgressRecipes', JSON.stringify(newStorage));
+  // }
 
   const renderRecipe = () => {
     if (id[0] === '5' && fetchedRecipe) {
@@ -53,11 +179,14 @@ function RecipeInProgress() {
             if (food[ing] !== '' && food[ing] !== null) {
               return (
                 <div key={ index }>
-                  <label htmlFor={ `${index}-ingredient-step` }>
+                  <label
+                    htmlFor={ `${index}-ingredient-step` }
+                    data-testid={ `${index}-ingredient-step` }
+                  >
                     <input
                       type="checkbox"
-                      data-testid={ `${index}-ingredient-step` }
                       id={ `${index}-ingredient-step` }
+                      onChange={ (origin) => saveSteps(food[ing], origin) }
                     />
                     {food[ing]}
                   </label>
@@ -106,10 +235,12 @@ function RecipeInProgress() {
             if (drink[ing] !== null && drink[ing] !== '') {
               return (
                 <div key={ index }>
-                  <label htmlFor={ `${index}-ingredient-step` }>
+                  <label
+                    htmlFor={ `${index}-ingredient-step` }
+                    data-testid={ `${index}-ingredient-step` }
+                  >
                     <input
                       type="checkbox"
-                      data-testid={ `${index}-ingredient-step` }
                       id={ `${index}-ingredient-step` }
                     />
                     {drink[ing]}
