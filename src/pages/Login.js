@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { MIN_PASSWORD_LENGTH } from '../helpers/magicNumbers';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   function check() {
-    const minPass = 6;
     const regexEmail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    const ok = regexEmail.test(email) && password.length > minPass;
+    const ok = regexEmail.test(email) && password.length > MIN_PASSWORD_LENGTH;
     return !ok;
   }
 

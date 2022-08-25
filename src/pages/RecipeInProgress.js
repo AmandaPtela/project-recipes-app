@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchRecipeInProgress } from '../API/recipesAPI';
-import inProgressRender from '../components/InProgressRender';
+import InProgressRender from '../components/InProgressRender';
 import { retrieveLocalStorage } from '../helpers/localStorage';
 import { INTERVAL_FOR_LOCALSTORAGE_RETRIEVE } from '../helpers/magicNumbers';
 
@@ -55,9 +55,11 @@ function RecipeInProgress() {
     isChecked();
   }, []);
 
+  const toProgressRender = { id, fetchedRecipe };
+
   return (
     <div>
-      { inProgressRender(id, fetchedRecipe) }
+      { InProgressRender(toProgressRender) }
     </div>);
 }
 

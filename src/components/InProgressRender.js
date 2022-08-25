@@ -1,11 +1,16 @@
 import React from 'react';
-import { DRINK_RENDER_CHECKBOX, FOOD_RENDER_CHECKBOX } from '../helpers/magicNumbers';
+import Copy from 'clipboard-copy';
+import { useLocation } from 'react-router-dom';
+import { DRINK_RENDER_CHECKBOX, FOOD_RENDER_CHECKBOX,
+  PATHNAME_SLICE_FOOD, PATHNAME_SLICE_DRINK } from '../helpers/magicNumbers';
 import { removeLocalStorage, saveLocalStorage } from '../helpers/localStorage';
 
-function inProgressRender(id, API) {
+function InProgressRender(params) {
+  const { id, fetchedRecipe } = params;
+  const location = useLocation();
+
   const checkboxClick = ({ target }, ingredient) => {
     if (target.checked) {
-      console.log(target.parentElement.style.textDecoration);
       saveLocalStorage(id, ingredient);
     }
     if (!target.checked) {
@@ -13,9 +18,21 @@ function inProgressRender(id, API) {
     }
   };
 
+  const handleShareButton = ({ target }) => {
+    if (id[0] === '5') {
+      const pathname = location.pathname.slice(0, PATHNAME_SLICE_FOOD);
+      Copy(`http://localhost:3000${pathname}`);
+    }
+    if (id[0] === '1') {
+      const pathname = location.pathname.slice(0, PATHNAME_SLICE_DRINK);
+      Copy(`http://localhost:3000${pathname}`);
+    }
+    target.innerHTML = 'Link copied!';
+  };
+
   const renderRecipe = () => {
-    if (id[0] === '5' && API) {
-      const food = API.meals[0];
+    if (id[0] === '5' && fetchedRecipe) {
+      const food = fetchedRecipe.meals[0];
 
       return (
         <div id="recipe-in-progress-card">
@@ -29,6 +46,7 @@ function inProgressRender(id, API) {
           <button
             type="button"
             data-testid="share-btn"
+            onClick={ (button) => handleShareButton(button) }
           >
             Share
           </button>
@@ -44,7 +62,7 @@ function inProgressRender(id, API) {
               return (
                 <div key={ index }>
                   <label
-                    htmlFor={ `${index}-ingredient-step` }
+                    htmlFor={ `${food[ing]}-ingredient-step` }
                     data-testid={ `${index}-ingredient-step` }
                   >
                     <input
@@ -69,8 +87,8 @@ function inProgressRender(id, API) {
         </div>
       );
     }
-    if (id[0] === '1' && API) {
-      const drink = API.drinks[0];
+    if (id[0] === '1' && fetchedRecipe) {
+      const drink = fetchedRecipe.drinks[0];
 
       return (
         <div id="recipe-in-progress-card">
@@ -84,6 +102,7 @@ function inProgressRender(id, API) {
           <button
             type="button"
             data-testid="share-btn"
+            onClick={ (button) => handleShareButton(button) }
           >
             Share
           </button>
@@ -99,7 +118,7 @@ function inProgressRender(id, API) {
               return (
                 <div key={ index }>
                   <label
-                    htmlFor={ `${index}-ingredient-step` }
+                    htmlFor={ `${drink[ing]}-ingredient-step` }
                     data-testid={ `${index}-ingredient-step` }
                   >
                     <input
@@ -136,4 +155,4 @@ function inProgressRender(id, API) {
   );
 }
 
-export default inProgressRender;
+export default InProgressRender;
