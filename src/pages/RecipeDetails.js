@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import fetchContent from '../API/recipesAPI';
+import { fetchContent } from '../API/recipesAPI';
 import BtnRecipe from '../components/BtnRecipe';
 import Carousel from '../components/Carousel';
 import ShareIcon from '../images/shareIcon.svg';
@@ -122,7 +122,6 @@ function RecipeDetails() {
   };
   return (
     <div>
-      Foods
       {loading && 'Carregando...'}
       {!loading && (
         <div className="">
@@ -149,7 +148,7 @@ function RecipeDetails() {
           </h2>
           {ingredients.map(
             (ingredient, i) => (
-              <div className="" key={ ingredient }>
+              <div className="" key={ ingredient + i }>
                 <span data-testid={ `${i}-ingredient-name-and-measure` }>
                   {ingredientsQntd[i]}
                   {' '}

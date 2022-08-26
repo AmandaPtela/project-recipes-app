@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import Copy from 'clipboard-copy';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { DRINK_RENDER_CHECKBOX, FOOD_RENDER_CHECKBOX,
   PATHNAME_SLICE_FOOD, PATHNAME_SLICE_DRINK } from '../helpers/magicNumbers';
 import { removeLocalStorage, saveLocalStorage } from '../helpers/localStorage';
 
 function InProgressRender(params) {
   const { id, fetchedRecipe } = params;
+  const history = useHistory();
   const location = useLocation();
   const [buttonState, setbuttonState] = useState(true);
 
@@ -107,6 +108,7 @@ function InProgressRender(params) {
             type="button"
             data-testid="finish-recipe-btn"
             disabled={ buttonState }
+            onClick={ () => history.push('/done-recipes') }
           >
             Finish Recipe
           </button>
@@ -164,6 +166,7 @@ function InProgressRender(params) {
             type="button"
             data-testid="finish-recipe-btn"
             disabled={ buttonState }
+            onClick={ () => history.push('/done-recipes') }
           >
             Finish Recipe
           </button>
