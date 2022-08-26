@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import ShareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
@@ -51,17 +50,17 @@ function FavoritesRecipes() {
 
   useEffect(() => {
     switch (filter) {
-      case 'All':
-        setFiltredArray([...favoriteRecipes]);
-        break;
-      case 'Food':
-        setFiltredArray(favoriteRecipes.filter((e) => e.type === 'food'));
-        break;
-      case 'Drink':
-        setFiltredArray(favoriteRecipes.filter((e) => e.type === 'drink'));
-        break;
-      default:
-        break;
+    case 'All':
+      setFiltredArray([...favoriteRecipes]);
+      break;
+    case 'Food':
+      setFiltredArray(favoriteRecipes.filter((e) => e.type === 'food'));
+      break;
+    case 'Drink':
+      setFiltredArray(favoriteRecipes.filter((e) => e.type === 'drink'));
+      break;
+    default:
+      break;
     }
   }, [filter]);
 
@@ -77,7 +76,7 @@ function FavoritesRecipes() {
         <button
           type="button"
           data-testid="filter-by-all-btn"
-          onClick={() => setFilter('All')}
+          onClick={ () => setFilter('All') }
         >
           All
 
@@ -85,7 +84,7 @@ function FavoritesRecipes() {
         <button
           type="button"
           data-testid="filter-by-food-btn"
-          onClick={() => setFilter('Food')}
+          onClick={ () => setFilter('Food') }
         >
           Food
 
@@ -93,64 +92,64 @@ function FavoritesRecipes() {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
-          onClick={() => setFilter('Drink')}
+          onClick={ () => setFilter('Drink') }
         >
           Drinks
 
         </button>
       </div>
       {filtredArray.length > 0 && filtredArray.map((recipe, i) => (
-        <div className="" key={recipe.id}>
+        <div className="" key={ recipe.id }>
           <div
             className=""
-            onClick={() => redirect(recipe.id, recipe.type)}
+            onClick={ () => redirect(recipe.id, recipe.type) }
             role="button"
-            onKeyDown={() => redirect(recipe.id, recipe.type)}
-            tabIndex={0}
+            onKeyDown={ () => redirect(recipe.id, recipe.type) }
+            tabIndex={ 0 }
           >
             <img
-              src={recipe.image}
-              style={{ width: '250px' }}
+              src={ recipe.image }
+              style={ { width: '250px' } }
               alt=""
-              data-testid={`${i}-horizontal-image`}
+              data-testid={ `${i}-horizontal-image` }
             />
           </div>
           {recipe.type === 'food'
             ? (
               <h1
-                data-testid={`${i}-horizontal-top-text`}
+                data-testid={ `${i}-horizontal-top-text` }
               >
                 {`${recipe.nationality} - ${recipe.category}`}
 
               </h1>)
             : (
               <h1
-                data-testid={`${i}-horizontal-top-text`}
+                data-testid={ `${i}-horizontal-top-text` }
               >
                 {`${recipe.alcoholicOrNot}`}
               </h1>)}
           <div
             className=""
-            onClick={() => redirect(recipe.id, recipe.type)}
+            onClick={ () => redirect(recipe.id, recipe.type) }
             role="button"
-            onKeyDown={() => redirect(recipe.id, recipe.type)}
-            tabIndex={0}
+            onKeyDown={ () => redirect(recipe.id, recipe.type) }
+            tabIndex={ 0 }
           >
             <h3
-              data-testid={`${i}-horizontal-name`}
+              data-testid={ `${i}-horizontal-name` }
 
             >
               {recipe.name}
             </h3>
           </div>
-          <h5 data-testid={`${i}-horizontal-done-date`}>{recipe.doneDate}</h5>
+          <h5 data-testid={ `${i}-horizontal-done-date` }>{recipe.doneDate}</h5>
           <button
             type="button"
-            onClick={() => { setCopyLink(true); copy(`http://localhost:3000/${recipe.type === 'food' ? 'foods' : 'drinks'}/${recipe.id}`); }}
+            onClick={ () => { setCopyLink(true); copy(`http://localhost:3000/${recipe.type === 'food' ? 'foods' : 'drinks'}/${recipe.id}`); } }
           >
             <img
-              src={ShareIcon}
-              data-testid={`${i}-horizontal-share-btn`}
+              src={ ShareIcon }
+              data-testid={ `${i}-horizontal-share-btn` }
               alt=""
               srcSet=""
             />
@@ -165,10 +164,10 @@ function FavoritesRecipes() {
               </p>),
           )} */}
           {copyLink && <p>Link copied!</p>}
-          <button type="button" onClick={() => handleFav(recipe.id)}>
+          <button type="button" onClick={ () => handleFav(recipe.id) }>
             <img
-              data-testid={`${i}-horizontal-favorite-btn`}
-              src={blackHeartIcon}
+              data-testid={ `${i}-horizontal-favorite-btn` }
+              src={ blackHeartIcon }
               alt=""
             />
           </button>
