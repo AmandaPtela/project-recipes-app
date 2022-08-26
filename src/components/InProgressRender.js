@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Copy from 'clipboard-copy';
 import { useLocation } from 'react-router-dom';
 import { DRINK_RENDER_CHECKBOX, FOOD_RENDER_CHECKBOX,
@@ -8,6 +8,28 @@ import { removeLocalStorage, saveLocalStorage } from '../helpers/localStorage';
 function InProgressRender(params) {
   const { id, fetchedRecipe } = params;
   const location = useLocation();
+  const [buttonState, setbuttonState] = useState(true);
+
+  const handleChecked = () => {
+    if (id[0] === '5' && fetchedRecipe) {
+      const allCheckeds = document.querySelectorAll('input[type="checkbox"]').length;
+      const food = JSON.parse(localStorage.getItem('inProgressRecipes')).meals[id].length;
+      if (food === allCheckeds) {
+        setbuttonState(false);
+      } else {
+        setbuttonState(true);
+      }
+    } else if (id[0] === '1' && fetchedRecipe) {
+      const allCheckeds = document.querySelectorAll('input[type="checkbox"]').length;
+      const drinks = JSON.parse(localStorage
+        .getItem('inProgressRecipes')).cocktails[id].length;
+      if (drinks === allCheckeds) {
+        setbuttonState(false);
+      } else {
+        setbuttonState(true);
+      }
+    }
+  };
 
   const checkboxClick = ({ target }, ingredient) => {
     if (target.checked) {
@@ -16,6 +38,7 @@ function InProgressRender(params) {
     if (!target.checked) {
       removeLocalStorage(id, ingredient);
     }
+    handleChecked();
   };
 
   const handleShareButton = ({ target }) => {
@@ -68,7 +91,9 @@ function InProgressRender(params) {
                     <input
                       type="checkbox"
                       id={ `${food[ing]}-ingredient-step` }
-                      onClick={ (button) => checkboxClick(button, food[ing]) }
+                      onClick={ (button) => {
+                        checkboxClick(button, food[ing]);
+                      } }
                     />
                     {food[ing]}
                   </label>
@@ -81,6 +106,7 @@ function InProgressRender(params) {
           <button
             type="button"
             data-testid="finish-recipe-btn"
+            disabled={ buttonState }
           >
             Finish Recipe
           </button>
@@ -137,6 +163,7 @@ function InProgressRender(params) {
           <button
             type="button"
             data-testid="finish-recipe-btn"
+            disabled={ buttonState }
           >
             Finish Recipe
           </button>
