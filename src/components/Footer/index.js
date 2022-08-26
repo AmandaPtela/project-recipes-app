@@ -11,6 +11,9 @@ export default function Footer() {
       <div
         className="drink"
         onClick={ () => history.push('/drinks') }
+        onKeyDown={ () => history.push('/drinks') }
+        role="button"
+        tabIndex={ 0 }
       >
         <img
           src={ DrinkIcon }
@@ -21,6 +24,9 @@ export default function Footer() {
       <div
         className="meal"
         onClick={ () => history.push('/foods') }
+        onKeyDown={ () => history.push('/foods') }
+        role="button"
+        tabIndex={ 0 }
       >
         <img
           src={ MealIcon }
