@@ -72,6 +72,8 @@ function Foods() {
         <div
           key={ food.idMeal }
           data-testid={ `${index}-recipe-card` }
+          role="button"
+          tabIndex={ 0 }
           onClick={ () => history.push(`/foods/${food.idMeal}`) }
           role="button"
           tabIndex={ 0 }
