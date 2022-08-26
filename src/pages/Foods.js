@@ -4,12 +4,12 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
 import { fetchRecipes, fetchCategory, fetchContentWithCategory } from '../API/recipesAPI';
+import { MAIN_PAGE_MAX_CATEGORIES, MAIN_PAGE_MAX_RECIPES } from '../helpers/magicNumbers';
 
 function Foods() {
-  const { content, setContent, categories, setCategories } = useContext(Context);
+  const { content, setContent, categories,
+    setCategories } = useContext(Context);
   const history = useHistory();
-  const maxItens = 12;
-  const maxCategories = 5;
 
   const recipesFetch = async () => {
     const recipes = await fetchRecipes('Food');
@@ -48,7 +48,7 @@ function Foods() {
   };
 
   const categoryRender = () => categories.meals.map((food, index) => {
-    if (index < maxCategories) {
+    if (index < MAIN_PAGE_MAX_CATEGORIES) {
       return (
         <div key={ index + food.strCategory }>
           <label htmlFor={ food.strCategory }>
@@ -64,20 +64,20 @@ function Foods() {
         </div>
       );
     }
+    return null;
   });
 
   const foodRender = () => content.meals.map((food, index) => {
-    if (index < maxItens) {
+    if (index < MAIN_PAGE_MAX_RECIPES) {
       return (
         <div
           key={ food.idMeal }
           data-testid={ `${index}-recipe-card` }
+          // TROCAR URL!!!!!!!!!!!!!!!
+          onClick={ () => history.push(`/foods/${food.idMeal}/in-progress`) }
           role="button"
           tabIndex={ 0 }
-          onClick={ () => history.push(`/foods/${food.idMeal}`) }
-          role="button"
-          tabIndex={ 0 }
-          onKeyDown={ () => history.push(`/foods/${food.idMeal}`) }
+          onKeyDown={ () => history.push(`/foods/${food.idMeal}/in-progress`) }
         >
           <h1 data-testid={ `${index}-card-name` }>
             {' '}

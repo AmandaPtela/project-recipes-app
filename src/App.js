@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
@@ -7,21 +7,20 @@ import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoritesRecipes';
-import RecipeDetails from './pages/RecipeDetails';
-import { Context } from './context/Provider';
+import DrinksDetails from './pages/DrinksDetails';
+import FoodsDetails from './pages/FoodsDetails';
+import RecipeInProgress from './pages/RecipeInProgress';
 
 function App() {
-  const AllContext = useContext(Context);
-
-  console.log('TEM DENTRO DO CONTEXT................................', AllContext);
-
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/foods/:id" component={ RecipeDetails } />
+        <Route path="/foods/:id/in-progress" component={ RecipeInProgress } />
+        <Route path="/foods/:id" component={ FoodsDetails } />
         <Route path="/foods" component={ Foods } />
-        <Route path="/drinks/:id" component={ RecipeDetails } />
+        <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
+        <Route path="/drinks/:id" component={ DrinksDetails } />
         <Route path="/drinks" component={ Drinks } />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />

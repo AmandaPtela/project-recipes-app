@@ -4,12 +4,11 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
 import { fetchRecipes, fetchCategory, fetchContentWithCategory } from '../API/recipesAPI';
+import { MAIN_PAGE_MAX_CATEGORIES, MAIN_PAGE_MAX_RECIPES } from '../helpers/magicNumbers';
 
 function Drinks() {
   const { content, setContent, categories, setCategories } = useContext(Context);
   const history = useHistory();
-  const maxItens = 12;
-  const maxCategories = 5;
 
   const recipesFetch = async () => {
     const recipes = await fetchRecipes('Drink');
@@ -48,7 +47,7 @@ function Drinks() {
   };
 
   const categoryRender = () => categories.drinks.map((drink, index) => {
-    if (index < maxCategories) {
+    if (index < MAIN_PAGE_MAX_CATEGORIES) {
       return (
         <div key={ index + drink.strCategory }>
           <label htmlFor={ drink.strCategory }>
@@ -63,18 +62,20 @@ function Drinks() {
         </div>
       );
     }
+    return null;
   });
 
   const drinkRender = () => content.drinks.map((drink, index) => {
-    if (index < maxItens) {
+    if (index < MAIN_PAGE_MAX_RECIPES) {
       return (
         <div
           key={ drink.idDrink }
           data-testid={ `${index}-recipe-card` }
-          onClick={ () => history.push(`/drinks/${drink.idDrink}`) }
+          // TROCAR URL!!!!!!!!!!!!!!!
+          onClick={ () => history.push(`/drinks/${drink.idDrink}/in-progress`) }
           role="button"
           tabIndex={ 0 }
-          onKeyDown={ () => history.push(`/drinks/${drink.idDrink}`) }
+          onKeyDown={ () => history.push(`/drinks/${drink.idDrink}/in-progress`) }
         >
           <h1 data-testid={ `${index}-card-name` }>
             {' '}
