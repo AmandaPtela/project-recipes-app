@@ -74,10 +74,10 @@ function Foods() {
           key={ food.idMeal }
           data-testid={ `${index}-recipe-card` }
           // TROCAR URL!!!!!!!!!!!!!!!
-          onClick={ () => history.push(`/foods/${food.idMeal}/in-progress`) }
+          onClick={ () => history.push(`/foods/${food.idMeal}`) }
           role="button"
           tabIndex={ 0 }
-          onKeyDown={ () => history.push(`/foods/${food.idMeal}/in-progress`) }
+          onKeyDown={ () => history.push(`/foods/${food.idMeal}`) }
         >
           <h1 data-testid={ `${index}-card-name` }>
             {' '}
