@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MIN_PASSWORD_LENGTH } from '../helpers/magicNumbers';
-import './CSS/Login.css';
+// import './CSS/Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');

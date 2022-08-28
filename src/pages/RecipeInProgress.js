@@ -21,30 +21,37 @@ function RecipeInProgress() {
     }
   };
 
+  const isFood = () => {
+    const ingredients = ((localStorageRecipe.meals[id]));
+
+    if (ingredients !== undefined && ingredients !== null) {
+      ingredients.forEach((ing) => {
+        const element = document.getElementById(`${ing}-ingredient-step`);
+        element.defaultChecked = true;
+      });
+    }
+  };
+
+  const isCocktail = () => {
+    const ingredients = ((localStorageRecipe.cocktails[id]));
+
+    if (ingredients !== undefined && ingredients !== null) {
+      ingredients.forEach((ing) => {
+        const element = document.getElementById(`${ing}-ingredient-step`);
+        element.defaultChecked = true;
+      });
+    }
+  };
+
   const isChecked = () => {
     // REFATORAR AQUI!!!!!!!!! COMPLEXIDADE ALTA NA FUNÇÃO
     setTimeout(() => {
       if (localStorageRecipe) {
         if (id[0] === '5') {
-          const ingredients = ((localStorageRecipe.meals[id]));
-
-          if (ingredients !== undefined && ingredients !== null) {
-            ingredients.forEach((ing) => {
-              const element = document.getElementById(`${ing}-ingredient-step`);
-              element.defaultChecked = true;
-            });
-          }
+          isFood();
         }
-
         if (id[0] === '1') {
-          const ingredients = ((localStorageRecipe.cocktails[id]));
-
-          if (ingredients !== undefined && ingredients !== null) {
-            ingredients.forEach((ing) => {
-              const element = document.getElementById(`${ing}-ingredient-step`);
-              element.defaultChecked = true;
-            });
-          }
+          isCocktail();
         }
       }
     }, INTERVAL_FOR_LOCALSTORAGE_RETRIEVE);
@@ -59,7 +66,7 @@ function RecipeInProgress() {
 
   return (
     <div>
-      { InProgressRender(toProgressRender) }
+      {InProgressRender(toProgressRender)}
     </div>);
 }
 
