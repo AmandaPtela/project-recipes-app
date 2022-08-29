@@ -14,6 +14,7 @@ header {
 .wrapper-header h3 {
     color: #269a70;
     font-size: 22px;
+    padding-left: 3%;
 }
 
 .options {
