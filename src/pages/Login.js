@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BiRightArrow } from 'react-icons/bi';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { MIN_PASSWORD_LENGTH } from '../helpers/magicNumbers';
 import '../CSS/Login.css';
 import Ilustration from '../images/loginImage.svg';
@@ -24,7 +24,7 @@ function Login() {
   return (
     <main id="login-page">
       <div className="image-head">
-        <img src={ Ilustration } alt="" />
+        <img src={Ilustration} alt="" />
       </div>
       <div className="text">
         <h1>Faltando pouco para matar sua fome!</h1>
@@ -37,10 +37,10 @@ function Login() {
           <input
             id="email"
             placeholder="Email"
-            value={ email }
+            value={email}
             type="email"
             required
-            onChange={ (e) => setEmail(e.target.value) }
+            onChange={(e) => setEmail(e.target.value)}
             data-testid="email-input"
           />
         </label>
@@ -49,9 +49,9 @@ function Login() {
           <br />
           <input
             type="password"
-            value={ password }
+            value={password}
             placeholder="Senha"
-            onChange={ (e) => setPassword(e.target.value) }
+            onChange={(e) => setPassword(e.target.value)}
             data-testid="password-input"
             required
           />
@@ -59,11 +59,15 @@ function Login() {
         <Link to="/foods">
           <button
             type="button"
-            disabled={ check() }
+            disabled={check()}
             data-testid="login-submit-btn"
-            onClick={ handleClick }
+            onClick={handleClick}
+            className="btnLogin"
           >
-            <BiRightArrow size={ 32 } color={ !check() && '#269A70' } />
+            <AiOutlineCheckCircle
+              size={32}
+              color={!check() && '#269A70'}
+            />
           </button>
         </Link>
       </form>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import '../CSS/Header.css';
 
 function Header({ title }) {
   const [showSearch, setShowSearch] = useState(false);
@@ -15,12 +16,12 @@ function Header({ title }) {
   const search = (
     <div
       role="button"
-      tabIndex={ 0 }
-      onClick={ handleSearchBar }
-      onKeyDown={ handleSearchBar }
+      tabIndex={0}
+      onClick={handleSearchBar}
+      onKeyDown={handleSearchBar}
     >
       <img
-        src={ searchIcon }
+        src={searchIcon}
         alt="searchIcon"
         data-testid="search-top-btn"
       />
@@ -29,12 +30,16 @@ function Header({ title }) {
 
   return (
     <header>
-      <h3 data-testid="page-title">{title}</h3>
-      <Link to="/profile">
-        <img src={ profileIcon } alt="profileIcon" data-testid="profile-top-btn" />
-      </Link>
-      {(title === 'Foods' || title === 'Drinks') && search}
-      {showSearch && <SearchBar type={ title } />}
+      <main className="wrapper-header">
+        <h3 data-testid="page-title">{title}</h3>
+        <div className="options">
+          <Link to="/profile">
+            <img src={profileIcon} alt="profileIcon" data-testid="profile-top-btn" />
+          </Link>
+          {(title === 'Foods' || title === 'Drinks') && search}
+        </div>
+      </main>
+      <SearchBar type={title} showSearch={showSearch} />
     </header>
   );
 }

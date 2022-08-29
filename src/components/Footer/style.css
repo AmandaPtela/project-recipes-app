@@ -1,10 +1,18 @@
 .footer {
+  padding: 10px 0;
+  margin-top: 20px;
   align-items: center;
-  background-color: red;
+  background-color: #cdcdcd;
   bottom: 0;
   display: flex;
   height: 10vh;
   justify-content: space-around;
-  position: fixed;
   width: 100vw;
+}
+
+.drink,
+.meal {
+  padding: 10px;
+  background-color: white;
+  border-radius: 50%;
 }
