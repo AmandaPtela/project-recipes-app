@@ -30,7 +30,7 @@ function InProgressRender(params) {
         ? fetchedRecipe.meals[0].strMeal : fetchedRecipe.drinks[0].strDrink,
       image: type === 'foods'
         ? fetchedRecipe.meals[0].strMealThumb : fetchedRecipe.drinks[0].strDrinkThumb,
-      doneData: `${data.getDay() / data.getMonth() / data.getFullYear()}`,
+      doneData: `${data.getDay()}/${data.getMonth()}/${data.getFullYear()}`,
       tags: type === 'foods' ? [fetchedRecipe.meals[0].strCategory]
         : [fetchedRecipe.drinks[0].strCategory],
     };
@@ -89,12 +89,6 @@ function InProgressRender(params) {
 
       return (
         <div id="recipe-in-progress-card">
-          {/* <img
-            src={food.strMealThumb}
-            alt={food.strMeal}
-            data-testid="recipe-photo"
-            className="recipe-header-img"
-          /> */}
           <div
             className="recipe-header-img"
             style={ {
@@ -118,12 +112,6 @@ function InProgressRender(params) {
               <img src={ ShareIcon } alt="" srcSet="" />
             </button>
           </div>
-          {/* <button
-            type="button"
-            data-testid="favorite-btn"
-          >
-            Favorite
-          </button> */}
           {
             Array.from({ length: FOOD_RENDER_CHECKBOX }, (i, index) => {
               const ing = `strIngredient${JSON.stringify(index + 1)}`;
@@ -178,31 +166,38 @@ function InProgressRender(params) {
 
       return (
         <div id="recipe-in-progress-card">
-          <img
-            src={ drink.strDrinkThumb }
-            alt={ drink.strDrink }
-            data-testid="recipe-photo"
+          <div
+            className="recipe-header-img"
+            style={ {
+              backgroundImage: `url(${drink.strDrinkThumb})`,
+            } }
           />
-          <h3 data-testid="recipe-title">{drink.strDrink}</h3>
-          <h4 data-testid="recipe-category">{drink.strCategory}</h4>
-          <button
-            type="button"
-            data-testid="share-btn"
-            onClick={ (button) => handleShareButton(button) }
+          <h3
+            data-testid="recipe-title"
+            className="recipe-title-page"
           >
-            Share
-          </button>
-          <button
-            type="button"
-            data-testid="favorite-btn"
-          >
-            Favorite
-          </button>
+            {drink.strDrink}
+          </h3>
+          <div className="wrapper-info">
+            <h4
+              data-testid="recipe-category"
+              className="recipe-category-page"
+            >
+              {drink.strCategory}
+            </h4>
+            <button
+              type="button"
+              data-testid="share-btn"
+              onClick={ (button) => handleShareButton(button) }
+            >
+              <img src={ ShareIcon } alt="" srcSet="" />
+            </button>
+          </div>
           {Array.from({ length: DRINK_RENDER_CHECKBOX }, (i, index) => {
             const ing = `strIngredient${JSON.stringify(index + 1)}`;
             if (drink[ing] !== null && drink[ing] !== '') {
               return (
-                <div key={ index }>
+                <div key={ index } className="ingredient-card-page">
                   <label
                     htmlFor={ `${drink[ing]}-ingredient-step` }
                     data-testid={ `${index}-ingredient-step` }
@@ -219,15 +214,25 @@ function InProgressRender(params) {
             }
             return null;
           })}
-          <p data-testid="instructions">{drink.strInstructions}</p>
-          <button
-            type="button"
-            data-testid="finish-recipe-btn"
-            disabled={ buttonState }
-            onClick={ handleDone }
+          <p
+            data-testid="instructions"
+            className="instructions-page"
           >
-            Finish Recipe
-          </button>
+            {drink.strInstructions}
+          </p>
+          <div className="btn-finish">
+            <button
+              type="button"
+              data-testid="finish-recipe-btn"
+              disabled={ buttonState }
+              onClick={ () => {
+                history.push('/done-recipes');
+                handleDone();
+              } }
+            >
+              Finish Recipe
+            </button>
+          </div>
         </div>
       );
     }
@@ -235,7 +240,6 @@ function InProgressRender(params) {
       <p>Carregando...</p>
     );
   };
-
   return (
     <div>
       {renderRecipe()}

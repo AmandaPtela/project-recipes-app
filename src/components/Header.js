@@ -39,7 +39,8 @@ function Header({ title }) {
           {(title === 'Foods' || title === 'Drinks') && search}
         </div>
       </main>
-      <SearchBar type={ title } showSearch={ showSearch } />
+      {(title === 'Foods' || title === 'Drinks')
+        && <SearchBar type={ title } showSearch={ showSearch } />}
     </header>
   );
 }
