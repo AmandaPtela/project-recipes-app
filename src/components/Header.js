@@ -16,12 +16,12 @@ function Header({ title }) {
   const search = (
     <div
       role="button"
-      tabIndex={0}
-      onClick={handleSearchBar}
-      onKeyDown={handleSearchBar}
+      tabIndex={ 0 }
+      onClick={ handleSearchBar }
+      onKeyDown={ handleSearchBar }
     >
       <img
-        src={searchIcon}
+        src={ searchIcon }
         alt="searchIcon"
         data-testid="search-top-btn"
       />
@@ -34,12 +34,12 @@ function Header({ title }) {
         <h3 data-testid="page-title">{title}</h3>
         <div className="options">
           <Link to="/profile">
-            <img src={profileIcon} alt="profileIcon" data-testid="profile-top-btn" />
+            <img src={ profileIcon } alt="profileIcon" data-testid="profile-top-btn" />
           </Link>
           {(title === 'Foods' || title === 'Drinks') && search}
         </div>
       </main>
-      <SearchBar type={title} showSearch={showSearch} />
+      <SearchBar type={ title } showSearch={ showSearch } />
     </header>
   );
 }

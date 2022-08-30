@@ -7,18 +7,9 @@
 }
 
 .category label {
-    height: 30px;
     display: flex;
-    align-items: center;
-}
-
-
-.slick-slider {
-    background-color: #ededed;
-    height: 60px;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-end;
+    white-space: nowrap;
 }
 
 .food-wrapper {
@@ -53,7 +44,7 @@
     border-radius: 50px 0 50px 0;
 }
 
-#btn-all {
+.btn-all {
     display: flex;
     margin: 0 auto;
     background-color: #269a70;

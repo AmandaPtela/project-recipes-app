@@ -42,7 +42,7 @@ function Foods() {
       type="button"
       onClick={recipesFetch}
       data-testid="All-category-filter"
-      id="btn-all"
+      className="btn-all"
     >
       All
 
@@ -59,54 +59,56 @@ function Foods() {
     }
   };
 
-  const categoryRender = () => categories.meals.map((food, index) => {
-    if (index < MAIN_PAGE_MAX_CATEGORIES) {
-      return (
-        <div key={index + food.strCategory} className="category">
-          <label htmlFor={food.strCategory}>
-            <input
-              id={food.strCategory}
-              onClick={(button) => handleCategoryClick(food.strCategory, button)}
-              type="checkbox"
-              data-testid={`${food.strCategory}-category-filter`}
+  const categoryRender = () => !!categories.meals
+    && categories.meals.map((food, index) => {
+      if (index < MAIN_PAGE_MAX_CATEGORIES) {
+        return (
+          <div key={index + food.strCategory} className="category">
+            <label htmlFor={food.strCategory}>
+              <input
+                id={food.strCategory}
+                onClick={(button) => handleCategoryClick(food.strCategory, button)}
+                type="checkbox"
+                data-testid={`${food.strCategory}-category-filter`}
+              />
+              {food.strCategory}
+            </label>
+
+          </div>
+        );
+      }
+      return null;
+    });
+
+  const foodRender = () => !!content.meals
+    && content.meals.map((food, index) => {
+      if (index < MAIN_PAGE_MAX_RECIPES) {
+        return (
+          <div
+            key={food.idMeal}
+            data-testid={`${index}-recipe-card`}
+            // TROCAR URL!!!!!!!!!!!!!!!
+            onClick={() => history.push(`/foods/${food.idMeal}`)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={() => history.push(`/foods/${food.idMeal}`)}
+            className="food-card"
+          >
+            <h1 data-testid={`${index}-card-name`} className="food-title">
+              {' '}
+              {food.strMeal}
+              {' '}
+            </h1>
+            <img
+              className="test"
+              data-testid={`${index}-card-img`}
+              src={food.strMealThumb}
+              alt={food.strMeal}
             />
-            {food.strCategory}
-          </label>
-
-        </div>
-      );
-    }
-    return null;
-  });
-
-  const foodRender = () => content.meals.map((food, index) => {
-    if (index < MAIN_PAGE_MAX_RECIPES) {
-      return (
-        <div
-          key={food.idMeal}
-          data-testid={`${index}-recipe-card`}
-          // TROCAR URL!!!!!!!!!!!!!!!
-          onClick={() => history.push(`/foods/${food.idMeal}`)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={() => history.push(`/foods/${food.idMeal}`)}
-          className="food-card"
-        >
-          <h1 data-testid={`${index}-card-name`} className="food-title">
-            {' '}
-            {food.strMeal}
-            {' '}
-          </h1>
-          <img
-            className="test"
-            data-testid={`${index}-card-img`}
-            src={food.strMealThumb}
-            alt={food.strMeal}
-          />
-        </div>);
-    }
-    return null;
-  });
+          </div>);
+      }
+      return null;
+    });
 
   return (
     <div>
@@ -116,7 +118,6 @@ function Foods() {
         && (
           <Slider {...settings}>
             {categoryRender()}
-
           </Slider>)}
       {(content.meals !== null && Object.values(content).length >= 1)
         && (

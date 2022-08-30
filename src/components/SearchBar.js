@@ -95,12 +95,12 @@ function SearchBar({ type, showSearch }) {
   };
 
   return (
-    <div className={`searchbar ${showSearch && 'ativo'}`}>
+    <div className={ `searchbar ${showSearch && 'ativo'}` }>
       <form className="searchform">
         <input
           type="text"
           data-testid="search-input"
-          onChange={handleSearch}
+          onChange={ handleSearch }
           id="searchbar"
         />
         <div className="search-options">
@@ -109,9 +109,9 @@ function SearchBar({ type, showSearch }) {
               type="radio"
               id="search-radio1"
               name="search-radio"
-              value={StringSearchIngredient}
+              value={ StringSearchIngredient }
               data-testid="ingredient-search-radio"
-              onClick={handleRadio}
+              onClick={ handleRadio }
               defaultChecked
             />
             Ingredient
@@ -126,7 +126,7 @@ function SearchBar({ type, showSearch }) {
               name="search-radio"
               value="search-name"
               data-testid="name-search-radio"
-              onClick={handleRadio}
+              onClick={ handleRadio }
             />
             Name
           </label>
@@ -140,7 +140,7 @@ function SearchBar({ type, showSearch }) {
               name="search-radio"
               value="search-first-letter"
               data-testid="first-letter-search-radio"
-              onClick={handleRadio}
+              onClick={ handleRadio }
             />
             Primeira Letra
           </label>
@@ -150,7 +150,7 @@ function SearchBar({ type, showSearch }) {
         <button
           type="button"
           data-testid="exec-search-btn"
-          onClick={handleSubmit}
+          onClick={ handleSubmit }
           id="btnsearch"
         >
           Search
