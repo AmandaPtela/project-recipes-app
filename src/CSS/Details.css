@@ -170,3 +170,27 @@
 .fav-btn img {
   width: 20px;
 }
+
+.btn-finish {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-finish button {
+  background-color: #43927c;
+  border: 0;
+  border-radius: 50px;
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  margin: 20px auto;
+  outline: none;
+  padding: 10px;
+  text-align: center;
+  width: 180px;
+}
+
+.btn-finish button:disabled {
+  background-color: gray;
+}
