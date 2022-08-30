@@ -6,6 +6,7 @@ import Carousel from '../components/Carousel';
 import ShareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import '../CSS/Details.css';
 
 const copy = require('clipboard-copy');
 
@@ -46,6 +47,7 @@ function RecipeDetails() {
   const fetchingData = async () => {
     if (type === 'foods') {
       setRecipe(await fetchContent(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`));
+
       setRecomendations(await fetchContent('https://www.thecocktaildb.com/api/json/v1/1/search.php?s='));
     } else {
       setRecipe(await fetchContent(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`));
@@ -83,8 +85,8 @@ function RecipeDetails() {
         newArrQ.push(recipe.drinks[0][keyQ]);
       }
     }
-    setIngredients([...newArrI]);
-    setIngredientsQntd([...newArrQ]);
+    setIngredients(newArrI.filter((e) => e !== ''));
+    setIngredientsQntd(newArrQ.filter((e) => e !== ''));
     setLoading(false);
   }, [recipe, recomendations]);
 
@@ -124,40 +126,70 @@ function RecipeDetails() {
     <div>
       {loading && 'Carregando...'}
       {!loading && (
-        <div className="">
-          <img
-            src={ type === 'foods'
+        <div className="container">
+          {/* <img
+            src={type === 'foods'
               ? recipe.meals[0].strMealThumb
-              : recipe.drinks[0].strDrinkThumb }
+              : recipe.drinks[0].strDrinkThumb}
             data-testid="recipe-photo"
-            alt={ type === 'foods'
-              ? recipe.meals[0].strMeal
-              : recipe.drinks[0].strDrink }
-          />
-          <h1 data-testid="recipe-title">
-            { type === 'foods'
+            alt={type === 'foods'
               ? recipe.meals[0].strMeal
               : recipe.drinks[0].strDrink}
-
-          </h1>
-          <h2 data-testid="recipe-category">
+            className="recipe-header-img"
+          /> */}
+          <div
+            className="recipe-header-img"
+            style={ {
+              backgroundImage: `url(${type === 'foods'
+                ? recipe.meals[0].strMealThumb
+                : recipe.drinks[0].strDrinkThumb})`,
+            } }
+          />
+          <h1 data-testid="recipe-title" className="recipe-title-page">
             {type === 'foods'
-              ? recipe.meals[0].strCategory
-              : recipe.drinks[0].strAlcoholic}
-
-          </h2>
+              ? recipe.meals[0].strMeal
+              : recipe.drinks[0].strDrink}
+          </h1>
+          <div className="wrapper-info">
+            <h2 data-testid="recipe-category" className="recipe-category-page">
+              {type === 'foods'
+                ? recipe.meals[0].strCategory
+                : recipe.drinks[0].strAlcoholic}
+            </h2>
+            <button
+              data-testid="share-btn"
+              type="button"
+              onClick={ () => { setCopyLink(true); copy(`http://localhost:3000${location.pathname}`); } }
+              className="share-btn"
+            >
+              <img src={ ShareIcon } alt="" srcSet="" />
+            </button>
+          </div>
+          {copyLink && <p style={ { textAlign: 'center' } }>Link copied!</p>}
+          <div className="text-page">
+            <h3 className="recipe-desc-page">Ingredients</h3>
+            <h4>
+              {ingredients && ingredientsQntd.length}
+              {' '}
+              items
+            </h4>
+          </div>
           {ingredients.map(
-            (ingredient, i) => (
-              <div className="" key={ ingredient + i }>
-                <span data-testid={ `${i}-ingredient-name-and-measure` }>
-                  {ingredientsQntd[i]}
-                  {' '}
-                  {ingredient}
-                </span>
-              </div>),
+            (ingredient, i) => {
+              const str = ingredient.replaceAll(' ', '%20');
+              return (
+                <div className="ingredient-card-page" key={ ingredient + i }>
+                  <img src={ `https://www.themealdb.com/images/ingredients/${str}.png` } alt="" />
+                  <span data-testid={ `${i}-ingredient-name-and-measure` }>
+                    {ingredientsQntd[i]}
+                    {' '}
+                    {ingredient}
+                  </span>
+                </div>);
+            },
           )}
-          <h2 data-testid="instructions">
-            { type === 'foods'
+          <h2 data-testid="instructions" className="instructions-page">
+            {type === 'foods'
               ? recipe.meals[0].strInstructions
               : recipe.drinks[0].strInstructions}
 
@@ -173,6 +205,7 @@ function RecipeDetails() {
               allow="accelerometer; autoplay;
              clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              className="youtube-iframe"
             />
           )}
           <Carousel
@@ -182,27 +215,21 @@ function RecipeDetails() {
           />
         </div>
       )}
-      <BtnRecipe
-        type={ type }
-        doneRecipes={ doneRecipes }
-        id={ id }
-        isInProgress={ isInProgress }
-      />
-      <button
-        data-testid="share-btn"
-        type="button"
-        onClick={ () => { setCopyLink(true); copy(`http://localhost:3000${location.pathname}`); } }
-      >
-        <img src={ ShareIcon } alt="" srcSet="" />
-      </button>
-      <button type="button" onClick={ handleFav }>
-        <img
-          data-testid="favorite-btn"
-          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-          alt=""
+      <footer className="footer-details">
+        <button type="button" onClick={ handleFav } className="fav-btn">
+          <img
+            data-testid="favorite-btn"
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt=""
+          />
+        </button>
+        <BtnRecipe
+          type={ type }
+          doneRecipes={ doneRecipes }
+          id={ id }
+          isInProgress={ isInProgress }
         />
-      </button>
-      {copyLink && <p>Link copied!</p>}
+      </footer>
     </div>
   );
 }

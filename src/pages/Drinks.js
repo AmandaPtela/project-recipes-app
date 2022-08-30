@@ -38,7 +38,7 @@ function Drinks() {
   const clearButton = (
     <button
       type="button"
-      onClick={recipesFetch}
+      onClick={ recipesFetch }
       data-testid="All-category-filter"
       className="btn-all"
     >
@@ -61,13 +61,13 @@ function Drinks() {
     && categories.drinks.map((drink, index) => {
       if (index < MAIN_PAGE_MAX_CATEGORIES) {
         return (
-          <div key={index + drink.strCategory} className="category">
-            <label htmlFor={drink.strCategory}>
+          <div key={ index + drink.strCategory } className="category">
+            <label htmlFor={ drink.strCategory }>
               <input
-                id={drink.strCategory}
-                onClick={(button) => handleCategoryClick(drink.strCategory, button)}
+                id={ drink.strCategory }
+                onClick={ (button) => handleCategoryClick(drink.strCategory, button) }
                 type="checkbox"
-                data-testid={`${drink.strCategory}-category-filter`}
+                data-testid={ `${drink.strCategory}-category-filter` }
               />
               {drink.strCategory}
             </label>
@@ -82,25 +82,25 @@ function Drinks() {
       if (index < MAIN_PAGE_MAX_RECIPES) {
         return (
           <div
-            key={drink.idDrink}
-            data-testid={`${index}-recipe-card`}
+            key={ drink.idDrink }
+            data-testid={ `${index}-recipe-card` }
             // TROCAR URL!!!!!!!!!!!!!!!
-            onClick={() => history.push(`/drinks/${drink.idDrink}`)}
+            onClick={ () => history.push(`/drinks/${drink.idDrink}`) }
             role="button"
-            tabIndex={0}
-            onKeyDown={() => history.push(`/drinks/${drink.idDrink}`)}
+            tabIndex={ 0 }
+            onKeyDown={ () => history.push(`/drinks/${drink.idDrink}`) }
             className="food-card"
           >
-            <h1 data-testid={`${index}-card-name`} className="food-title">
+            <h1 data-testid={ `${index}-card-name` } className="food-title">
               {' '}
               {drink.strDrink}
               {' '}
             </h1>
             <img
               className="test"
-              data-testid={`${index}-card-img`}
-              src={drink.strDrinkThumb}
-              alt={drink.strDrink}
+              data-testid={ `${index}-card-img` }
+              src={ drink.strDrinkThumb }
+              alt={ drink.strDrink }
             />
           </div>);
       }
@@ -113,7 +113,7 @@ function Drinks() {
       {(categories.drinks !== null
         && Object.values(categories).length >= 1)
         && (
-          <Slider {...settings}>
+          <Slider { ...settings }>
             {categoryRender()}
           </Slider>)}
       {(content.drinks !== null && Object.values(content).length >= 1)

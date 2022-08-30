@@ -40,7 +40,7 @@ function Foods() {
   const clearButton = (
     <button
       type="button"
-      onClick={recipesFetch}
+      onClick={ recipesFetch }
       data-testid="All-category-filter"
       className="btn-all"
     >
@@ -63,13 +63,13 @@ function Foods() {
     && categories.meals.map((food, index) => {
       if (index < MAIN_PAGE_MAX_CATEGORIES) {
         return (
-          <div key={index + food.strCategory} className="category">
-            <label htmlFor={food.strCategory}>
+          <div key={ index + food.strCategory } className="category">
+            <label htmlFor={ food.strCategory }>
               <input
-                id={food.strCategory}
-                onClick={(button) => handleCategoryClick(food.strCategory, button)}
+                id={ food.strCategory }
+                onClick={ (button) => handleCategoryClick(food.strCategory, button) }
                 type="checkbox"
-                data-testid={`${food.strCategory}-category-filter`}
+                data-testid={ `${food.strCategory}-category-filter` }
               />
               {food.strCategory}
             </label>
@@ -85,25 +85,25 @@ function Foods() {
       if (index < MAIN_PAGE_MAX_RECIPES) {
         return (
           <div
-            key={food.idMeal}
-            data-testid={`${index}-recipe-card`}
+            key={ food.idMeal }
+            data-testid={ `${index}-recipe-card` }
             // TROCAR URL!!!!!!!!!!!!!!!
-            onClick={() => history.push(`/foods/${food.idMeal}`)}
+            onClick={ () => history.push(`/foods/${food.idMeal}`) }
             role="button"
-            tabIndex={0}
-            onKeyDown={() => history.push(`/foods/${food.idMeal}`)}
+            tabIndex={ 0 }
+            onKeyDown={ () => history.push(`/foods/${food.idMeal}`) }
             className="food-card"
           >
-            <h1 data-testid={`${index}-card-name`} className="food-title">
+            <h1 data-testid={ `${index}-card-name` } className="food-title">
               {' '}
               {food.strMeal}
               {' '}
             </h1>
             <img
               className="test"
-              data-testid={`${index}-card-img`}
-              src={food.strMealThumb}
-              alt={food.strMeal}
+              data-testid={ `${index}-card-img` }
+              src={ food.strMealThumb }
+              alt={ food.strMeal }
             />
           </div>);
       }
@@ -116,7 +116,7 @@ function Foods() {
       {(categories.meals !== null
         && Object.values(categories).length >= 1)
         && (
-          <Slider {...settings}>
+          <Slider { ...settings }>
             {categoryRender()}
           </Slider>)}
       {(content.meals !== null && Object.values(content).length >= 1)
