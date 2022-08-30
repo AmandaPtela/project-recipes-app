@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { act } from 'react-dom/test-utils';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
@@ -12,12 +13,16 @@ function Drinks() {
 
   const recipesFetch = async () => {
     const recipes = await fetchRecipes('Drink');
-    setContent(recipes);
+    act(() => {
+      setContent(recipes);
+    });
   };
 
   const categoryFetch = async () => {
     const category = await fetchCategory('Drink');
-    setCategories(category);
+    act(() => {
+      setCategories(category);
+    });
   };
 
   useEffect(() => {

@@ -1,12 +1,11 @@
+
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import renderWithRouter from './helpers/renderWithRouter';
-/* import { Router } from 'react-router-dom';*/
 import { Provider } from '../context/Provider';
 
 import App from '../App';
 
-describe('Verifica página de login', () => {
+describe('Verifica o LOGIN', () => {
   it('Verifica inputs de Email e senha', () => {
     const { history } = render(
       <Provider>
@@ -30,8 +29,5 @@ describe('Verifica página de login', () => {
     userEvent.type(inputPassword, '3213211');
     expect(botaoLogin).not.toBeDisabled();
     userEvent.click(botaoLogin);
-   
-    // history.push('/foods')
-    // expect(history.location.pathname).toBe('/foods');
   });
 })
