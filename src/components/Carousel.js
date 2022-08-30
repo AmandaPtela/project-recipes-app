@@ -16,31 +16,32 @@ export default function Carousel({ data, type }) {
   };
 
   return (
-    <Slider { ...settings }>
+    <Slider {...settings}>
       {type === 'foods' ? data.slice(0, maxCards).map((reco, i) => (
-        <div key={ Math.random() } className="recomendations-carousel">
+        <div key={Math.random()} className="recomendations-carousel">
           {i <= maxCards
             && (
               <div
                 className=""
-                data-testid={ `${i}-recomendation-card` }
+                data-testid={`${i}-recomendation-card`}
                 className="recomendation-card"
               >
-                <img src={ reco.strDrinkThumb } alt="" />
-                <p data-testid={ `${i}-recomendation-title` }>{reco.strDrink}</p>
+                <img src={reco.strDrinkThumb} alt="" />
+                <p data-testid={`${i}-recomendation-title`}>{reco.strDrink}</p>
               </div>)}
         </div>
       ))
         : data.slice(0, maxCards).map((reco, i) => (
-          <div key={ Math.random() }>
+          <div key={Math.random()} className="recomendations-carousel">
             {i <= maxCards
               && (
                 <div
                   className=""
-                  data-testid={ `${i}-recomendation-card` }
+                  data-testid={`${i}-recomendation-card`}
+                  className="recomendation-card"
                 >
-                  <img src={ reco.strMealThumb } alt="" />
-                  <p data-testid={ `${i}-recomendation-title` }>{reco.strMeal}</p>
+                  <img src={reco.strMealThumb} alt="" />
+                  <p data-testid={`${i}-recomendation-title`}>{reco.strMeal}</p>
                 </div>)}
           </div>))}
     </Slider>

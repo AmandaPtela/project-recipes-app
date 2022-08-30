@@ -85,8 +85,8 @@ function RecipeDetails() {
         newArrQ.push(recipe.drinks[0][keyQ]);
       }
     }
-    setIngredients(newArrI.filter((e) => e !== ''));
-    setIngredientsQntd(newArrQ.filter((e) => e !== ''));
+    setIngredients(newArrI.filter((e) => e !== '' && e !== null && e !== undefined));
+    setIngredientsQntd(newArrQ.filter((e) => e !== '' && e !== null && e !== undefined));
     setLoading(false);
   }, [recipe, recomendations]);
 
@@ -122,6 +122,8 @@ function RecipeDetails() {
     }
     notFav();
   };
+
+  useEffect(() => console.log(ingredients), [ingredients]);
   return (
     <div>
       {loading && 'Carregando...'}
@@ -139,11 +141,11 @@ function RecipeDetails() {
           /> */}
           <div
             className="recipe-header-img"
-            style={ {
+            style={{
               backgroundImage: `url(${type === 'foods'
                 ? recipe.meals[0].strMealThumb
                 : recipe.drinks[0].strDrinkThumb})`,
-            } }
+            }}
           />
           <h1 data-testid="recipe-title" className="recipe-title-page">
             {type === 'foods'
@@ -159,28 +161,29 @@ function RecipeDetails() {
             <button
               data-testid="share-btn"
               type="button"
-              onClick={ () => { setCopyLink(true); copy(`http://localhost:3000${location.pathname}`); } }
+              onClick={() => { setCopyLink(true); copy(`http://localhost:3000${location.pathname}`); }}
               className="share-btn"
             >
-              <img src={ ShareIcon } alt="" srcSet="" />
+              <img src={ShareIcon} alt="" srcSet="" />
             </button>
           </div>
-          {copyLink && <p style={ { textAlign: 'center' } }>Link copied!</p>}
+          {copyLink && <p style={{ textAlign: 'center' }}>Link copied!</p>}
           <div className="text-page">
             <h3 className="recipe-desc-page">Ingredients</h3>
             <h4>
-              {ingredients && ingredientsQntd.length}
+              {ingredients && ingredients.length}
               {' '}
               items
             </h4>
           </div>
           {ingredients.map(
             (ingredient, i) => {
+              console.log(ingredient);
               const str = ingredient.replaceAll(' ', '%20');
               return (
-                <div className="ingredient-card-page" key={ ingredient + i }>
-                  <img src={ `https://www.themealdb.com/images/ingredients/${str}.png` } alt="" />
-                  <span data-testid={ `${i}-ingredient-name-and-measure` }>
+                <div className="ingredient-card-page" key={ingredient + i}>
+                  <img src={`https://www.themealdb.com/images/ingredients/${str}.png`} alt="" />
+                  <span data-testid={`${i}-ingredient-name-and-measure`}>
                     {ingredientsQntd[i]}
                     {' '}
                     {ingredient}
@@ -199,7 +202,7 @@ function RecipeDetails() {
               width="560"
               data-testid="video"
               height="315"
-              src={ `https://www.youtube.com/embed/${recipe.meals[0].strYoutube.split('=')[1]}` }
+              src={`https://www.youtube.com/embed/${recipe.meals[0].strYoutube.split('=')[1]}`}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay;
@@ -209,25 +212,25 @@ function RecipeDetails() {
             />
           )}
           <Carousel
-            data={ type === 'foods'
-              ? recomendations.drinks : recomendations.meals }
-            type={ type }
+            data={type === 'foods'
+              ? recomendations.drinks : recomendations.meals}
+            type={type}
           />
         </div>
       )}
       <footer className="footer-details">
-        <button type="button" onClick={ handleFav } className="fav-btn">
+        <button type="button" onClick={handleFav} className="fav-btn">
           <img
             data-testid="favorite-btn"
-            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            src={isFavorite ? blackHeartIcon : whiteHeartIcon}
             alt=""
           />
         </button>
         <BtnRecipe
-          type={ type }
-          doneRecipes={ doneRecipes }
-          id={ id }
-          isInProgress={ isInProgress }
+          type={type}
+          doneRecipes={doneRecipes}
+          id={id}
+          isInProgress={isInProgress}
         />
       </footer>
     </div>
