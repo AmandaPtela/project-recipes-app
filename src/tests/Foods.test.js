@@ -6,10 +6,9 @@ import { Provider } from '../context/Provider';
 const flushPromises = require('flush-promises')
 
 import App from '../App';
+import { array } from 'prop-types';
 
-// const flushPromises = () => new Promise(setImmediate)
-const tabKey = new KeyboardEvent('keydown', { key: 9 });
-const spaceKey = new KeyboardEvent('keydown', { key: 32 })
+jest.setTimeout(10000)
 
 describe('Verifica a página de FOODS', () => {
   it('Verifica a página de FOODS',async () => {
@@ -76,7 +75,7 @@ describe('Verifica a página de FOODS', () => {
     
     expect(pathname).toBe('/foods/52977')
 
-    await new Promise((r) => setTimeout(r, 1000))
+    await new Promise((r) => setTimeout(r, 2000))
 
     const detailTitle = screen.getByTestId('recipe-title')
     const detailCategory = screen.getByTestId('recipe-category')
@@ -84,8 +83,50 @@ describe('Verifica a página de FOODS', () => {
 
     expect(detailTitle && detailCategory && detailStepOne).toBeInTheDocument();
 
-    const carousel = screen.getByTestId('1-recomendation-card')
-    
-    expect(carousel).toBeInTheDocument();
+    let favButton = screen.getByTestId('favorite-btn');
+    let shareButton = screen.getByTestId('share-btn');
+
+    expect(favButton && shareButton).toBeInTheDocument();
+
+    userEvent.click(favButton);
+
+    const startButton = screen.getByTestId('start-recipe-btn')
+
+    expect(startButton).toBeInTheDocument();
+
+    userEvent.click(startButton);
+
+    await new Promise((r) => setTimeout(r, 1000))
+
+    favButton = screen.getByTestId('favorite-btn');
+    shareButton = screen.getByTestId('share-btn');
+
+    expect(favButton && shareButton).toBeInTheDocument();
+
+    userEvent.click(favButton);
+
+    const subText = screen.getByTestId('recipe-title')
+    expect(subText).toBeInTheDocument();
+
+    const ingredientsArray = [];
+    const finishRecipe = screen.getByTestId('finish-recipe-btn')
+
+    expect(finishRecipe).toBeDisabled()
+
+    Array.from({ length: 13 }, (i, index) => {
+      const item = screen.getByTestId(`${index}-ingredient-step`)
+      ingredientsArray.push(item)
+    })
+
+    ingredientsArray.forEach((ingredient) => {
+      expect(ingredient).toBeInTheDocument();
+      expect(ingredient).not.toBeChecked();
+      userEvent.click(ingredient);
+    })
+
+    expect(finishRecipe).not.toBeDisabled()
+
+    // userEvent.click(finishRecipe)
+ 
   })
 });

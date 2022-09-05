@@ -10,12 +10,20 @@ function DoneRecipes() {
   const history = useHistory();
   const [copyLink, setCopyLink] = useState(false);
   const [filter, setFilter] = useState('All');
-  const [filtredArray, setFiltredArray] = useState([...doneRecipes]);
+  const [filtredArray, setFiltredArray] = useState();
+
+  useEffect(() => {
+    if (doneRecipes !== null && doneRecipes !== undefined) {
+      setFiltredArray([...doneRecipes]);
+    }
+  }, []);
 
   useEffect(() => {
     switch (filter) {
     case 'All':
-      setFiltredArray([...doneRecipes]);
+      if (doneRecipes !== null && doneRecipes !== undefined) {
+        setFiltredArray([...doneRecipes]);
+      }
       break;
     case 'Food':
       setFiltredArray(doneRecipes.filter((e) => e.type === 'food'));
@@ -60,74 +68,76 @@ function DoneRecipes() {
 
         </button>
       </div>
-      {filtredArray.length > 0 && filtredArray.map((recipe, i) => (
-        <div className="" key={ recipe.id }>
-          <div
-            className=""
-            onClick={ () => redirect(recipe.id, recipe.type) }
-            role="button"
-            onKeyDown={ () => redirect(recipe.id, recipe.type) }
-            tabIndex={ 0 }
-          >
-            <img
-              src={ recipe.image }
-              style={ { width: '250px' } }
-              alt=""
-              data-testid={ `${i}-horizontal-image` }
-            />
-          </div>
-          {recipe.type === 'food'
-            ? (
-              <h1
-                data-testid={ `${i}-horizontal-top-text` }
-              >
-                {`${recipe.nationality} - ${recipe.category}`}
+      { console.log(filtredArray)}
+      {filtredArray !== undefined && filtredArray.length > 0
+       && filtredArray.map((recipe, i) => (
+         <div className="" key={ recipe.id }>
+           <div
+             className=""
+             onClick={ () => redirect(recipe.id, recipe.type) }
+             role="button"
+             onKeyDown={ () => redirect(recipe.id, recipe.type) }
+             tabIndex={ 0 }
+           >
+             <img
+               src={ recipe.image }
+               style={ { width: '250px' } }
+               alt=""
+               data-testid={ `${i}-horizontal-image` }
+             />
+           </div>
+           {recipe.type === 'food'
+             ? (
+               <h1
+                 data-testid={ `${i}-horizontal-top-text` }
+               >
+                 {`${recipe.nationality} - ${recipe.category}`}
 
-              </h1>)
-            : (
-              <h1
-                data-testid={ `${i}-horizontal-top-text` }
-              >
-                {`${recipe.alcoholicOrNot}`}
-              </h1>)}
-          <div
-            className=""
-            onClick={ () => redirect(recipe.id, recipe.type) }
-            role="button"
-            onKeyDown={ () => redirect(recipe.id, recipe.type) }
-            tabIndex={ 0 }
-          >
-            <h3
-              data-testid={ `${i}-horizontal-name` }
+               </h1>)
+             : (
+               <h1
+                 data-testid={ `${i}-horizontal-top-text` }
+               >
+                 {`${recipe.alcoholicOrNot}`}
+               </h1>)}
+           <div
+             className=""
+             onClick={ () => redirect(recipe.id, recipe.type) }
+             role="button"
+             onKeyDown={ () => redirect(recipe.id, recipe.type) }
+             tabIndex={ 0 }
+           >
+             <h3
+               data-testid={ `${i}-horizontal-name` }
 
-            >
-              {recipe.name}
-            </h3>
-          </div>
-          <h5 data-testid={ `${i}-horizontal-done-date` }>{recipe.doneDate}</h5>
-          <button
-            type="button"
-            onClick={ () => { setCopyLink(true); copy(`http://localhost:3000/${recipe.type === 'food' ? 'foods' : 'drinks'}/${recipe.id}`); } }
-          >
-            <img
-              src={ ShareIcon }
-              data-testid={ `${i}-horizontal-share-btn` }
-              alt=""
-              srcSet=""
-            />
-          </button>
-          {recipe.tags.map(
-            (tag, index) => index <= 2 && (
-              <p
-                data-testid={ `${i}-${tag}-horizontal-tag` }
-                key={ tag }
-              >
-                {tag}
-              </p>),
-          )}
-          {copyLink && <p>Link copied!</p>}
-        </div>
-      ))}
+             >
+               {recipe.name}
+             </h3>
+           </div>
+           <h5 data-testid={ `${i}-horizontal-done-date` }>{recipe.doneDate}</h5>
+           <button
+             type="button"
+             onClick={ () => { setCopyLink(true); copy(`http://localhost:3000/${recipe.type === 'food' ? 'foods' : 'drinks'}/${recipe.id}`); } }
+           >
+             <img
+               src={ ShareIcon }
+               data-testid={ `${i}-horizontal-share-btn` }
+               alt=""
+               srcSet=""
+             />
+           </button>
+           {recipe.tags.map(
+             (tag, index) => index <= 2 && (
+               <p
+                 data-testid={ `${i}-${tag}-horizontal-tag` }
+                 key={ tag }
+               >
+                 {tag}
+               </p>),
+           )}
+           {copyLink && <p>Link copied!</p>}
+         </div>
+       ))}
     </div>
   );
 }

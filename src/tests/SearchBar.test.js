@@ -50,12 +50,9 @@ describe('Verifica a SearchBar', () => {
 
     expect(firstFood).toBeInTheDocument();
 
-    // await fetchContent('https://www.themealdb.com/api/json/v1/1/search.php?f=a')
-    // await new Promise((r) => setTimeout(r, 2000));
-    
-    // const secondFood = screen.getByText(/apple frangipan tart/i)
+    userEvent.click(searchComponent);
 
-    // expect(secondFood).toBeInTheDocument();
+    expect(searchInput).not.toBeInTheDocument();
   });
 
   it('Verifica a SearchBar - Busca por Primeira Letra',async () => {
