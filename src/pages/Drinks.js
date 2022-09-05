@@ -101,10 +101,12 @@ function Drinks() {
   return (
     <div>
       <Header title="Drinks" />
-      { (categories.drinks !== null
+      {console.log()}
+      { (categories.drinks !== null && categories.drinks !== undefined
         && Object.values(categories).length >= 1) && categoryRender() }
       {clearButton}
-      { (content.drinks !== null && Object.values(content).length >= 1) && drinkRender() }
+      { (content.drinks !== null && content.drinks !== undefined
+        && Object.values(content).length >= 1) && drinkRender() }
       <Footer />
     </div>
   );

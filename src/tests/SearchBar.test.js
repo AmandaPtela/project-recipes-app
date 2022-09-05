@@ -40,7 +40,7 @@ describe('Verifica a SearchBar', () => {
     expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
 
     userEvent.type(searchInput, 'Chicken')
-    userEvent.click(radioButton2)
+    userEvent.click(radioButton1)
     userEvent.click(searchButton)
 
     await fetchContent('https://www.themealdb.com/api/json/v1/1/filter.php?i=Chicken')
@@ -93,7 +93,7 @@ describe('Verifica a SearchBar', () => {
     expect(secondFood).toBeInTheDocument();
   });
 
-  it('Verifica a SearchBar - Busca por Primeira Letra com ALERTA!',async () => {
+  it('Verifica a SearchBar - Busca por Primeira Letra com ALERTA! ',async () => {
     render(
       <Provider>
         <App />
@@ -122,6 +122,266 @@ describe('Verifica a SearchBar', () => {
     userEvent.type(searchInput, 'ab')
     userEvent.click(radioButton3)
     userEvent.click(searchButton)
+  });
+
+  it('Verifica a SearchBar - Busca por Algo que Não Existe',async () => {
+    render(
+      <Provider>
+        <App />
+        </Provider>
+  );
+
+    await fetchRecipes('Food');
+
+    const searchComponent = screen.getByTestId('search-top-btn')
+
+    expect(searchComponent).toBeInTheDocument();
+
+    fireEvent.click(searchComponent);
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument();
+
+    const radioButton1 = screen.getByLabelText(/ingredient/i);
+    const radioButton2 = screen.getByLabelText(/name/i);
+    const radioButton3 = screen.getByLabelText(/primeira letra/i);
+    const searchButton = screen.getByTestId('exec-search-btn')
+
+    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
+
+    userEvent.type(searchInput, 'icecream')
+    userEvent.click(radioButton2)
+    userEvent.click(searchButton)
+  });
+
+  it('Verifica a SearchBar - Busca por um Único',async () => {
+    render(
+      <Provider>
+        <App />
+        </Provider>
+  );
+
+    await fetchRecipes('Food');
+
+    const searchComponent = screen.getByTestId('search-top-btn')
+
+    expect(searchComponent).toBeInTheDocument();
+
+    fireEvent.click(searchComponent);
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument();
+
+    const radioButton1 = screen.getByLabelText(/ingredient/i);
+    const radioButton2 = screen.getByLabelText(/name/i);
+    const radioButton3 = screen.getByLabelText(/primeira letra/i);
+    const searchButton = screen.getByTestId('exec-search-btn')
+
+    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
+
+    userEvent.type(searchInput, 'Arrabiata')
+    userEvent.click(radioButton2)
+    userEvent.click(searchButton)
+  });
+
+  it('Verifica a SearchBar - Busca por um Único',async () => {
+    render(
+      <Provider>
+        <App />
+        </Provider>
+  );
+
+    await fetchRecipes('Food');
+
+    const searchComponent = screen.getByTestId('search-top-btn')
+
+    expect(searchComponent).toBeInTheDocument();
+
+    fireEvent.click(searchComponent);
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument();
+
+    const radioButton1 = screen.getByLabelText(/ingredient/i);
+    const radioButton2 = screen.getByLabelText(/name/i);
+    const radioButton3 = screen.getByLabelText(/primeira letra/i);
+    const searchButton = screen.getByTestId('exec-search-btn')
+
+    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
+
+    userEvent.type(searchInput, 'Arrabiata')
+    userEvent.click(radioButton2)
+    userEvent.click(searchButton)
+  });
+
+  it('Verifica a SearchBar - Buscas em Drinks',async () => {
+    render(
+      <Provider>
+        <App />
+        </Provider>
+  );
+
+    await fetchRecipes('Food');
+
+    const drinks = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(drinks);
+
+    const searchComponent = screen.getByTestId('search-top-btn')
+
+    expect(searchComponent).toBeInTheDocument();
+
+    fireEvent.click(searchComponent);
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument();
+
+    const radioButton1 = screen.getByLabelText(/ingredient/i);
+    const radioButton2 = screen.getByLabelText(/name/i);
+    const radioButton3 = screen.getByLabelText(/primeira letra/i);
+    const searchButton = screen.getByTestId('exec-search-btn')
+
+    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
+
+    userEvent.type(searchInput, 'mint')
+    userEvent.click(radioButton1)
+    userEvent.click(searchButton)
+
+    await new Promise((r) => setTimeout(r, 2000))
+
+    const firstDrink = screen.getByText(/derby/i)
+
+    expect(firstDrink).toBeInTheDocument();
+
+  });
+
+  it('Verifica a SearchBar - Buscas em Drinks',async () => {
+    render(
+      <Provider>
+        <App />
+        </Provider>
+  );
+
+    await fetchRecipes('Food');
+
+    const drinks = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(drinks);
+
+    const searchComponent = screen.getByTestId('search-top-btn')
+
+    expect(searchComponent).toBeInTheDocument();
+
+    fireEvent.click(searchComponent);
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument();
+
+    const radioButton1 = screen.getByLabelText(/ingredient/i);
+    const radioButton2 = screen.getByLabelText(/name/i);
+    const radioButton3 = screen.getByLabelText(/primeira letra/i);
+    const searchButton = screen.getByTestId('exec-search-btn')
+
+    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
+
+    userEvent.type(searchInput, 'frozen')
+    userEvent.click(radioButton2)
+    userEvent.click(searchButton)
+
+    await new Promise((r) => setTimeout(r, 1000))
+    
+    const secondDrink = screen.getByText(/frozen daiquiri/i)
+
+    expect(secondDrink).toBeInTheDocument();
+
+  });
+
+  it('Verifica a SearchBar - Buscas em Drinks',async () => {
+    render(
+      <Provider>
+        <App />
+        </Provider>
+  );
+
+    await fetchRecipes('Food');
+
+    const drinks = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(drinks);
+
+    const searchComponent = screen.getByTestId('search-top-btn')
+
+    expect(searchComponent).toBeInTheDocument();
+
+    fireEvent.click(searchComponent);
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument();
+
+    const radioButton1 = screen.getByLabelText(/ingredient/i);
+    const radioButton2 = screen.getByLabelText(/name/i);
+    const radioButton3 = screen.getByLabelText(/primeira letra/i);
+    const searchButton = screen.getByTestId('exec-search-btn')
+
+    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
+
+    userEvent.type(searchInput, 'frozen')
+    userEvent.click(radioButton2)
+    userEvent.click(searchButton)
+
+    await new Promise((r) => setTimeout(r, 1000))
+    
+    const secondDrink = screen.getByText(/frozen daiquiri/i)
+
+    expect(secondDrink).toBeInTheDocument();
+
+  });
+
+  it('Verifica a SearchBar - Buscas em Drinks',async () => {
+    render(
+      <Provider>
+        <App />
+        </Provider>
+  );
+
+    await fetchRecipes('Food');
+
+    const drinks = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(drinks);
+
+    const searchComponent = screen.getByTestId('search-top-btn')
+
+    expect(searchComponent).toBeInTheDocument();
+
+    fireEvent.click(searchComponent);
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument();
+
+    const radioButton1 = screen.getByLabelText(/ingredient/i);
+    const radioButton2 = screen.getByLabelText(/name/i);
+    const radioButton3 = screen.getByLabelText(/primeira letra/i);
+    const searchButton = screen.getByTestId('exec-search-btn')
+
+    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
+
+    userEvent.type(searchInput, 'b')
+    userEvent.click(radioButton3)
+    userEvent.click(searchButton)
+
+    await new Promise((r) => setTimeout(r, 1000))
+    
+    const secondDrink = screen.getByText(/b-53/i)
+
+    expect(secondDrink).toBeInTheDocument();
 
   });
 });

@@ -107,10 +107,11 @@ function Foods() {
   return (
     <div>
       <Header title="Foods" />
-      { (categories.meals !== null
+      { (categories.meals !== null && categories.meals !== undefined
         && Object.values(categories).length >= 1) && categoryRender() }
       {clearButton}
-      { (content.meals !== null && Object.values(content).length >= 1) && foodRender() }
+      { (content.meals !== null && content.meals !== undefined
+        && Object.values(content).length >= 1) && foodRender() }
       <Footer />
     </div>
   );

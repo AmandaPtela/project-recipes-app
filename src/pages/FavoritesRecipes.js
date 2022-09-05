@@ -58,6 +58,7 @@ function FavoritesRecipes() {
     switch (filter) {
     case 'All':
       if (favoriteRecipes !== null && favoriteRecipes !== undefined) {
+        console.log('AQUI', favoriteRecipes);
         setFiltredArray([...favoriteRecipes]);
       }
       break;
