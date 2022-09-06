@@ -11,7 +11,13 @@ function FavoritesRecipes() {
   const history = useHistory();
   const [copyLink, setCopyLink] = useState(false);
   const [filter, setFilter] = useState('All');
-  const [filtredArray, setFiltredArray] = useState([...favoriteRecipes]);
+  const [filtredArray, setFiltredArray] = useState();
+
+  useEffect(() => {
+    if (favoriteRecipes !== null && favoriteRecipes !== undefined) {
+      setFiltredArray([...favoriteRecipes]);
+    }
+  }, []);
 
   console.log(favoriteRecipes);
 
@@ -51,7 +57,10 @@ function FavoritesRecipes() {
   useEffect(() => {
     switch (filter) {
     case 'All':
-      setFiltredArray([...favoriteRecipes]);
+      if (favoriteRecipes !== null && favoriteRecipes !== undefined) {
+        console.log('AQUI', favoriteRecipes);
+        setFiltredArray([...favoriteRecipes]);
+      }
       break;
     case 'Food':
       setFiltredArray(favoriteRecipes.filter((e) => e.type === 'food'));
@@ -71,7 +80,7 @@ function FavoritesRecipes() {
   };
   return (
     <div>
-      <Header title="Done Recipes" />
+      <Header title="Favorite Recipes" />
       <div className="">
         <button
           type="button"
@@ -98,7 +107,9 @@ function FavoritesRecipes() {
 
         </button>
       </div>
-      {filtredArray.length > 0 && filtredArray.map((recipe, i) => (
+      {/* MUDEI AQUI VVV */}
+      {filtredArray !== undefined
+      && filtredArray.length > 0 && filtredArray.map((recipe, i) => (
         <div className="" key={ recipe.id }>
           <div
             className=""
@@ -155,14 +166,14 @@ function FavoritesRecipes() {
             />
           </button>
           {/* {recipe.tags.map(
-            (tag, index) => index <= 2 && (
-              <p
-                data-testid={`${i}-${tag}-horizontal-tag`}
-                key={tag}
-              >
-                {tag}
-              </p>),
-          )} */}
+      (tag, index) => index <= 2 && (
+        <p
+          data-testid={`${i}-${tag}-horizontal-tag`}
+          key={tag}
+        >
+          {tag}
+        </p>),
+    )} */}
           {copyLink && <p>Link copied!</p>}
           <button type="button" onClick={ () => handleFav(recipe.id) }>
             <img

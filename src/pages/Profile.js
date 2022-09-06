@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
-  const { email } = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user'));
   const history = useHistory();
   return (
     <div>
@@ -12,7 +12,7 @@ function Profile() {
       <p
         data-testid="profile-email"
       >
-        { email }
+        { user !== null && user.email }
       </p>
       <button
         onClick={ () => history.push('/done-recipes') }

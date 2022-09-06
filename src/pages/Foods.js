@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { act } from 'react-dom/test-utils';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Context } from '../context/Provider';
@@ -13,12 +14,16 @@ function Foods() {
 
   const recipesFetch = async () => {
     const recipes = await fetchRecipes('Food');
-    setContent(recipes);
+    act(() => {
+      setContent(recipes);
+    });
   };
 
   const categoryFetch = async () => {
     const category = await fetchCategory('Food');
-    setCategories(category);
+    act(() => {
+      setCategories(category);
+    });
   };
 
   useEffect(() => {
@@ -39,11 +44,15 @@ function Foods() {
 
   const handleCategoryClick = async (food, button) => {
     if (!button.target.checked) {
-      recipesFetch();
+      act(() => {
+        recipesFetch();
+      });
     }
     if (button.target.checked) {
       const data = await fetchContentWithCategory('Food', food);
-      setContent(data);
+      act(() => {
+        setContent(data);
+      });
     }
   };
 
@@ -98,10 +107,11 @@ function Foods() {
   return (
     <div>
       <Header title="Foods" />
-      { (categories.meals !== null
+      { (categories.meals !== null && categories.meals !== undefined
         && Object.values(categories).length >= 1) && categoryRender() }
       {clearButton}
-      { (content.meals !== null && Object.values(content).length >= 1) && foodRender() }
+      { (content.meals !== null && content.meals !== undefined
+        && Object.values(content).length >= 1) && foodRender() }
       <Footer />
     </div>
   );

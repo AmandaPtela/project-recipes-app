@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { fetchContent } from '../API/recipesAPI';
 import BtnRecipe from '../components/BtnRecipe';
 import Carousel from '../components/Carousel';
@@ -11,6 +11,7 @@ const copy = require('clipboard-copy');
 
 function RecipeDetails() {
   const { id } = useParams();
+  const history = useHistory();
   const location = useLocation();
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -66,7 +67,8 @@ function RecipeDetails() {
       setIsInProgress(allInProgress.some((e) => e === id));
       setIsFavorite(favoriteRecipes.some((e) => e.id === id));
     }
-    if (favoriteRecipes !== null && Object.keys(favoriteRecipes[0]).length !== 0) {
+    if (favoriteRecipes !== undefined && favoriteRecipes !== null
+      && favoriteRecipes !== [] && Object.keys(favoriteRecipes[0]).length !== 0) {
       setIsFavorite(favoriteRecipes.some((e) => e.id === id));
     }
     const maxIngredient = 20;
@@ -203,6 +205,13 @@ function RecipeDetails() {
         />
       </button>
       {copyLink && <p>Link copied!</p>}
+      <button
+        type="button"
+        data-testid="my-favorites"
+        onClick={ () => history.push('/favorite-recipes') }
+      >
+        My Favorites
+      </button>
     </div>
   );
 }

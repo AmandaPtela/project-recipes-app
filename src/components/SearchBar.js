@@ -65,9 +65,6 @@ function SearchBar({ type }) {
         setContent({});
       }
 
-      console.log(content);
-      console.log(content[Object.keys(content)]);
-
       if (content[Object.keys(content)[0]] === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
