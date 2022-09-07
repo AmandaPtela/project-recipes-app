@@ -5,7 +5,7 @@ import { fetchContent } from '../API/recipesAPI';
 import { Context } from '../context/Provider';
 
 const StringSearchIngredient = 'search-ingredient';
-function SearchBar({ type }) {
+function SearchBar({ type, showSearch }) {
   const [searchValue, setSearchValue] = useState('');
   const [radioValue, setRadioValue] = useState(StringSearchIngredient);
   const { setContent, content } = useContext(Context);
@@ -65,6 +65,9 @@ function SearchBar({ type }) {
         setContent({});
       }
 
+      console.log(content);
+      console.log(content[Object.keys(content)]);
+
       if (content[Object.keys(content)[0]] === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
@@ -92,61 +95,63 @@ function SearchBar({ type }) {
   };
 
   return (
-    <div>
-      <form>
+    <div className={ `searchbar ${showSearch && 'ativo'}` }>
+      <form className="searchform">
         <input
           type="text"
           data-testid="search-input"
           onChange={ handleSearch }
+          id="searchbar"
         />
+        <div className="search-options">
+          <label htmlFor="search-radio1">
+            <input
+              type="radio"
+              id="search-radio1"
+              name="search-radio"
+              value={ StringSearchIngredient }
+              data-testid="ingredient-search-radio"
+              onClick={ handleRadio }
+              defaultChecked
+            />
+            Ingredient
+          </label>
 
-        <label htmlFor="search-radio1">
-          <input
-            type="radio"
-            id="search-radio1"
-            name="search-radio"
-            value={ StringSearchIngredient }
-            data-testid="ingredient-search-radio"
-            onClick={ handleRadio }
-            defaultChecked
-          />
-          Ingredient
-        </label>
+          <br />
 
-        <br />
+          <label htmlFor="search-radio2">
+            <input
+              type="radio"
+              id="search-radio2"
+              name="search-radio"
+              value="search-name"
+              data-testid="name-search-radio"
+              onClick={ handleRadio }
+            />
+            Name
+          </label>
 
-        <label htmlFor="search-radio2">
-          <input
-            type="radio"
-            id="search-radio2"
-            name="search-radio"
-            value="search-name"
-            data-testid="name-search-radio"
-            onClick={ handleRadio }
-          />
-          Name
-        </label>
+          <br />
 
-        <br />
+          <label htmlFor="search-radio3">
+            <input
+              type="radio"
+              id="search-radio3"
+              name="search-radio"
+              value="search-first-letter"
+              data-testid="first-letter-search-radio"
+              onClick={ handleRadio }
+            />
+            Primeira Letra
+          </label>
 
-        <label htmlFor="search-radio3">
-          <input
-            type="radio"
-            id="search-radio3"
-            name="search-radio"
-            value="search-first-letter"
-            data-testid="first-letter-search-radio"
-            onClick={ handleRadio }
-          />
-          Primeira Letra
-        </label>
-
-        <br />
-
+          <br />
+        </div>
         <button
           type="button"
           data-testid="exec-search-btn"
           onClick={ handleSubmit }
+          id="btnsearch"
         >
           Search
         </button>
@@ -159,4 +164,5 @@ export default SearchBar;
 
 SearchBar.propTypes = {
   type: PropTypes.string,
+  showSearch: PropTypes.string,
 }.isRequired;

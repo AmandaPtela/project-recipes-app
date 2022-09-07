@@ -6,17 +6,20 @@
     "node": "16"
   },
   "dependencies": {
+    "api": "^4.5.2",
+    "axios": "^0.27.2",
     "bootstrap": "^4.5.3",
     "clipboard-copy": "^4.0.1",
-    "flush-promises": "^1.0.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.4.0",
     "react-router-dom": "^5.3.3",
     "react-scripts": "^5.0.1",
     "react-slick": "^0.29.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "util": "^0.12.4"
   },
   "scripts": {
     "cy": "cypress run",

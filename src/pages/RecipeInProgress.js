@@ -44,7 +44,6 @@ function RecipeInProgress() {
   };
 
   const isChecked = () => {
-    // REFATORAR AQUI!!!!!!!!! COMPLEXIDADE ALTA NA FUNÇÃO
     setTimeout(() => {
       if (localStorageRecipe) {
         if (id[0] === '5') {

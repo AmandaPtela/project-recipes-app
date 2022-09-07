@@ -4,18 +4,28 @@ import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import '../CSS/Header.css';
 
 function Header({ title }) {
   const [showSearch, setShowSearch] = useState(false);
 
+  function handleSearchBar() {
+    setShowSearch(!showSearch);
+  }
+
   const search = (
-    <input
-      type="image"
-      alt="Search Icon"
-      src={ searchIcon }
-      onClick={ () => setShowSearch(!showSearch) }
-      data-testid="search-top-btn"
-    />
+    <div
+      role="button"
+      tabIndex={ 0 }
+      onClick={ handleSearchBar }
+      onKeyDown={ handleSearchBar }
+    >
+      <img
+        src={ searchIcon }
+        alt="searchIcon"
+        data-testid="search-top-btn"
+      />
+    </div>
   );
 
   return (
@@ -29,7 +39,8 @@ function Header({ title }) {
           {(title === 'Foods' || title === 'Drinks') && search}
         </div>
       </main>
-      { showSearch && <SearchBar type={ title } /> }
+      {(title === 'Foods' || title === 'Drinks')
+        && <SearchBar type={ title } showSearch={ showSearch } />}
     </header>
   );
 }

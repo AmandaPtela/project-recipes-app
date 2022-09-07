@@ -8,23 +8,32 @@ export default function Footer() {
   const history = useHistory();
   return (
     <footer data-testid="footer" className="footer">
-      <input
-        type="image"
+      <div
         className="drink"
-        src={ DrinkIcon }
-        alt="Drink"
         onClick={ () => history.push('/drinks') }
-        data-testid="drinks-bottom-btn"
-      />
-
-      <input
-        type="image"
+        onKeyDown={ () => history.push('/drinks') }
+        role="button"
+        tabIndex={ 0 }
+      >
+        <img
+          src={ DrinkIcon }
+          data-testid="drinks-bottom-btn"
+          alt="drink-icon"
+        />
+      </div>
+      <div
         className="meal"
-        src={ MealIcon }
-        alt="Meal"
         onClick={ () => history.push('/foods') }
-        data-testid="food-bottom-btn"
-      />
+        onKeyDown={ () => history.push('/foods') }
+        role="button"
+        tabIndex={ 0 }
+      >
+        <img
+          src={ MealIcon }
+          data-testid="food-bottom-btn"
+          alt="meal-icon"
+        />
+      </div>
     </footer>
   );
 }
