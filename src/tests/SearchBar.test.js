@@ -186,37 +186,6 @@ describe('Verifica a SearchBar', () => {
     userEvent.click(searchButton)
   });
 
-  it('Verifica a SearchBar - Busca por um Único',async () => {
-    render(
-      <Provider>
-        <App />
-        </Provider>
-  );
-
-    await fetchRecipes('Food');
-
-    const searchComponent = screen.getByTestId('search-top-btn')
-
-    expect(searchComponent).toBeInTheDocument();
-
-    fireEvent.click(searchComponent);
-
-    const searchInput = screen.getByTestId('search-input')
-
-    expect(searchInput).toBeInTheDocument();
-
-    const radioButton1 = screen.getByLabelText(/ingredient/i);
-    const radioButton2 = screen.getByLabelText(/name/i);
-    const radioButton3 = screen.getByLabelText(/primeira letra/i);
-    const searchButton = screen.getByTestId('exec-search-btn')
-
-    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
-
-    userEvent.type(searchInput, 'Arrabiata')
-    userEvent.click(radioButton2)
-    userEvent.click(searchButton)
-  });
-
   it('Verifica a SearchBar - Buscas em Drinks',async () => {
     render(
       <Provider>
@@ -374,6 +343,48 @@ describe('Verifica a SearchBar', () => {
     expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
 
     userEvent.type(searchInput, 'b')
+    userEvent.click(radioButton3)
+    userEvent.click(searchButton)
+
+    await new Promise((r) => setTimeout(r, 1000))
+    
+    const secondDrink = screen.getByText(/b-53/i)
+
+    expect(secondDrink).toBeInTheDocument();
+
+  });
+
+  it('Verifica a SearchBar - Buscas em Drinks',async () => {
+    render(
+      <Provider>
+        <App />
+        </Provider>
+  );
+
+    await fetchRecipes('Food');
+
+    const drinks = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(drinks);
+
+    const searchComponent = screen.getByTestId('search-top-btn')
+
+    expect(searchComponent).toBeInTheDocument();
+
+    fireEvent.click(searchComponent);
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument();
+
+    const radioButton1 = screen.getByLabelText(/ingredient/i);
+    const radioButton2 = screen.getByLabelText(/name/i);
+    const radioButton3 = screen.getByLabelText(/primeira letra/i);
+    const searchButton = screen.getByTestId('exec-search-btn')
+
+    expect(radioButton1 && radioButton2 && radioButton3 && searchButton).toBeInTheDocument();
+
+    userEvent.type(searchInput, 'ba')
     userEvent.click(radioButton3)
     userEvent.click(searchButton)
 
