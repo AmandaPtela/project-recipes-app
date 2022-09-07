@@ -50,17 +50,17 @@ function FavoritesRecipes() {
 
   useEffect(() => {
     switch (filter) {
-    case 'All':
-      setFiltredArray([...favoriteRecipes]);
-      break;
-    case 'Food':
-      setFiltredArray(favoriteRecipes.filter((e) => e.type === 'food'));
-      break;
-    case 'Drink':
-      setFiltredArray(favoriteRecipes.filter((e) => e.type === 'drink'));
-      break;
-    default:
-      break;
+      case 'All':
+        setFiltredArray([...favoriteRecipes]);
+        break;
+      case 'Food':
+        setFiltredArray(favoriteRecipes.filter((e) => e.type === 'food'));
+        break;
+      case 'Drink':
+        setFiltredArray(favoriteRecipes.filter((e) => e.type === 'drink'));
+        break;
+      default:
+        break;
     }
   }, [filter]);
 
@@ -72,11 +72,11 @@ function FavoritesRecipes() {
   return (
     <div>
       <Header title="Done Recipes" />
-      <div className="">
+      <div className="wrapper-done-btn">
         <button
           type="button"
           data-testid="filter-by-all-btn"
-          onClick={ () => setFilter('All') }
+          onClick={() => setFilter('All')}
         >
           All
 
@@ -84,7 +84,7 @@ function FavoritesRecipes() {
         <button
           type="button"
           data-testid="filter-by-food-btn"
-          onClick={ () => setFilter('Food') }
+          onClick={() => setFilter('Food')}
         >
           Food
 
@@ -92,69 +92,71 @@ function FavoritesRecipes() {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
-          onClick={ () => setFilter('Drink') }
+          onClick={() => setFilter('Drink')}
         >
           Drinks
 
         </button>
       </div>
-      {filtredArray.length > 0 && filtredArray.map((recipe, i) => (
-        <div className="" key={ recipe.id }>
-          <div
-            className=""
-            onClick={ () => redirect(recipe.id, recipe.type) }
-            role="button"
-            onKeyDown={ () => redirect(recipe.id, recipe.type) }
-            tabIndex={ 0 }
-          >
-            <img
-              src={ recipe.image }
-              style={ { width: '250px' } }
-              alt=""
-              data-testid={ `${i}-horizontal-image` }
-            />
-          </div>
-          {recipe.type === 'food'
-            ? (
-              <h1
-                data-testid={ `${i}-horizontal-top-text` }
-              >
-                {`${recipe.nationality} - ${recipe.category}`}
-
-              </h1>)
-            : (
-              <h1
-                data-testid={ `${i}-horizontal-top-text` }
-              >
-                {`${recipe.alcoholicOrNot}`}
-              </h1>)}
-          <div
-            className=""
-            onClick={ () => redirect(recipe.id, recipe.type) }
-            role="button"
-            onKeyDown={ () => redirect(recipe.id, recipe.type) }
-            tabIndex={ 0 }
-          >
-            <h3
-              data-testid={ `${i}-horizontal-name` }
-
+      <div className="cards-wrapper">
+        {filtredArray.length > 0 && filtredArray.map((recipe, i) => (
+          <div className="card-done" key={recipe.id}>
+            <div
+              className=""
+              onClick={() => redirect(recipe.id, recipe.type)}
+              role="button"
+              onKeyDown={() => redirect(recipe.id, recipe.type)}
+              tabIndex={0}
             >
-              {recipe.name}
-            </h3>
-          </div>
-          <h5 data-testid={ `${i}-horizontal-done-date` }>{recipe.doneDate}</h5>
-          <button
-            type="button"
-            onClick={ () => { setCopyLink(true); copy(`http://localhost:3000/${recipe.type === 'food' ? 'foods' : 'drinks'}/${recipe.id}`); } }
-          >
-            <img
-              src={ ShareIcon }
-              data-testid={ `${i}-horizontal-share-btn` }
-              alt=""
-              srcSet=""
-            />
-          </button>
-          {/* {recipe.tags.map(
+              <img
+                src={recipe.image}
+                style={{ width: '250px' }}
+                alt=""
+                className="card-image-done"
+                data-testid={`${i}-horizontal-image`}
+              />
+            </div>
+            {recipe.type === 'food'
+              ? (
+                <h3
+                  data-testid={`${i}-horizontal-top-text`}
+                >
+                  {`${recipe.nationality} - ${recipe.category}`}
+
+                </h3>)
+              : (
+                <h3
+                  data-testid={`${i}-horizontal-top-text`}
+                >
+                  {`${recipe.alcoholicOrNot}`}
+                </h3>)}
+            <div
+              className="done-name"
+              onClick={() => redirect(recipe.id, recipe.type)}
+              role="button"
+              onKeyDown={() => redirect(recipe.id, recipe.type)}
+              tabIndex={0}
+            >
+              <h1
+                data-testid={`${i}-horizontal-name`}
+
+              >
+                {recipe.name}
+              </h1>
+            </div>
+            <h5 data-testid={`${i}-horizontal-done-date`}>{recipe.doneDate}</h5>
+            <button
+              type="button"
+              onClick={() => { setCopyLink(true); copy(`http://localhost:3000/${recipe.type === 'food' ? 'foods' : 'drinks'}/${recipe.id}`); }}
+            >
+              <img
+                src={ShareIcon}
+                data-testid={`${i}-horizontal-share-btn`}
+                alt=""
+                srcSet=""
+              />
+            </button>
+            {/* {recipe.tags.map(
             (tag, index) => index <= 2 && (
               <p
                 data-testid={`${i}-${tag}-horizontal-tag`}
@@ -163,16 +165,18 @@ function FavoritesRecipes() {
                 {tag}
               </p>),
           )} */}
-          {copyLink && <p>Link copied!</p>}
-          <button type="button" onClick={ () => handleFav(recipe.id) }>
-            <img
-              data-testid={ `${i}-horizontal-favorite-btn` }
-              src={ blackHeartIcon }
-              alt=""
-            />
-          </button>
-        </div>
-      ))}
+            {copyLink && <p>Link copied!</p>}
+            <button type="button" onClick={() => handleFav(recipe.id)}>
+              <img
+                data-testid={`${i}-horizontal-favorite-btn`}
+                src={blackHeartIcon}
+                alt=""
+              />
+            </button>
+            <hr />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
